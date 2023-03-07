@@ -1,6 +1,6 @@
 class StatusBar extends DrawableObject {
 
-    IMGAES_HEALTH = [
+    IMAGES_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
@@ -14,7 +14,7 @@ class StatusBar extends DrawableObject {
 
     constructor() {
         super();
-        this.loadImages(this.IMGAES_HEALTH);
+        this.loadImages(this.IMAGES_HEALTH);
         this.x = 30;
         this.y = 0;
         this.width = 200;
@@ -24,7 +24,7 @@ class StatusBar extends DrawableObject {
 
     setHealth(health) {
         this.health = health;
-        let path = this.IMGAES_HEALTH[this.resolveImagesIndex()];
+        let path = this.IMAGES_HEALTH[this.resolveImagesIndex()];
         this.img = this.imageCache[path];
     }
 
