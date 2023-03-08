@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    coins = 0;
 
 
     applyGravitiy() {
@@ -18,7 +19,7 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y < 155;
+        return this.y < 140;
     }
 
     playAnimation(images) {
@@ -62,12 +63,16 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
         timepassed = timepassed / 1000 // Difference in sec
-        return timepassed < 1;
+        return timepassed < 0.5;
     }
 
     isDead() {
         return this.energy == 0;
     }
 
+    getCoin() {
+        this.coins += 20;
+        console.log(this.coins);
+    }
 
 }

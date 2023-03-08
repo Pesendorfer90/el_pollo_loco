@@ -24,14 +24,35 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if(this.character.isCollidiong(enemy)) {
-                    this.character.hit();
-                    this.statusBar.setHealth(this.character.energy)
-                }
-            })
+            this.enemyCollision();
+            this.coinCollision();
+            // bottleCollision();
         }, 200)
+
     }
+
+    enemyCollision() {
+        // setInterval(() => {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isCollidiong(enemy)) {
+                this.character.hit();
+                this.statusBar.setHealth(this.character.energy);
+            }
+        })
+        // }, 200)
+    }
+    coinCollision() {
+        this.level.coin.forEach((coin, i) => {
+            if (this.character.isCollidiong(coin)) {
+                this.character.getCoin();
+                this.coinBar.setCoins(this.character.coins);
+                // console.log([i]);
+                // function for animate the coin away
+                this.remove('this.level.coin', i)
+            }
+        })
+    }
+    // bottleCollision();
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -39,12 +60,12 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.Coins);
 
         this.addToMap(this.character);
-        // this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
-        
+        this.addObjectsToMap(this.level.coin);
+
         this.ctx.translate(-this.camera_x, 0);
         // ----------- Space for fixed objects --------------
         this.addToMap(this.statusBar);
