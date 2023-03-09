@@ -38,7 +38,7 @@ class World {
                 console.log(enemy);
                 this.character.hit();
                 this.statusBar.setHealth(this.character.energy);
-                
+
             }
         })
         // }, 200)
@@ -70,6 +70,7 @@ class World {
         // ----------- Space for fixed objects --------------
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
+        this.textToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -101,6 +102,13 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
+    }
+
+    textToMap(text) {
+        this.font = "30px Comic Sans MS";
+        this.fillStyle = "red";
+        this.textAlign = "center";
+        this.ctx.fillText(text, canvas.width / 2, canvas.height / 2);
     }
 
 

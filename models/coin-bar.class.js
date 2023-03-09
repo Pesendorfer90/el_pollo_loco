@@ -1,13 +1,13 @@
 class CoinBar extends DrawableObject {
 
-    IMAGES_COINBAR = [
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
-    ];
+    // IMAGES_COINBAR = [
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png',
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
+    //     'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
+    // ];
 
     coin_sound = new Audio('audio/coin.mp3');
 
@@ -15,13 +15,12 @@ class CoinBar extends DrawableObject {
 
 
     constructor() {
-        super();
-        this.loadImages(this.IMAGES_COINBAR);
-        this.x = 300;
-        this.y = 0;
-        this.width = 200;
+        super().loadImage('img/7_statusbars/3_icons/icon_coin.png');
+        this.x = 10;
+        this.y = 35;
+        this.width = 60;
         this.height = 60;
-        this.setCoins(0);
+        // this.setCoins(0);
     }
 
     getCoin() {
@@ -32,8 +31,12 @@ class CoinBar extends DrawableObject {
     }
 
     setCoins() {
-        let path = this.IMAGES_COINBAR[this.resolveImagesIndex()];
-        this.img = this.imageCache[path];
+        // this.ctx.font = "30px";
+        // this.ctx.fillStyle = "red";
+        // this.ctx.textAlign = "center";
+        this.ctx.fillText("Hello World", canvas.width / 2, canvas.height / 2);
+        // let path = this.IMAGES_COINBAR[this.resolveImagesIndex()];
+        // this.img = this.imageCache[path];
     }
 
     resolveImagesIndex() {
