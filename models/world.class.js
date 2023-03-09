@@ -35,8 +35,10 @@ class World {
         // setInterval(() => {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidiong(enemy)) {
+                console.log(enemy);
                 this.character.hit();
                 this.statusBar.setHealth(this.character.energy);
+                
             }
         })
         // }, 200)
@@ -44,11 +46,9 @@ class World {
     coinCollision() {
         this.level.coin.forEach((coin, i) => {
             if (this.character.isCollidiong(coin)) {
-                this.character.getCoin();
-                this.coinBar.setCoins(this.character.coins);
-                // console.log([i]);
-                // function for animate the coin away
-                this.remove('this.level.coin', i)
+                this.coinBar.getCoin();
+                this.coinBar.setCoins();
+                this.level.coin.splice(i, 1);
             }
         })
     }

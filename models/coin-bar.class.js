@@ -9,6 +9,8 @@ class CoinBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
 
+    coin_sound = new Audio('audio/coin.mp3');
+
     coins = 0;
 
 
@@ -22,8 +24,14 @@ class CoinBar extends DrawableObject {
         this.setCoins(0);
     }
 
-    setCoins(coins) {
-        this.coins = coins;
+    getCoin() {
+        this.coin_sound.pause();
+        this.coins += 20;
+        console.log(this.coins);
+        this.coin_sound.play();
+    }
+
+    setCoins() {
         let path = this.IMAGES_COINBAR[this.resolveImagesIndex()];
         this.img = this.imageCache[path];
     }

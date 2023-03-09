@@ -42,6 +42,8 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/run.mp3');
     jumping_sound = new Audio('audio/jump.mp3');
+    hurt_sound1 = new Audio('audio/hurt1.mp3');
+    hurt_sound2 = new Audio('audio/hurt2.mp3');
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -81,7 +83,10 @@ class Character extends MovableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
+                this.playHurtSound();
+                // this.hurt_sound.pause();
                 this.playAnimation(this.IMAGES_HURT);
+                // this.hurt_sound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
@@ -91,8 +96,20 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 35)
+        }, 50)
     }
 
+    playHurtSound() {
+        let energy = this.energy
+        if (/5/.test(energy)) {
+            // this.hurt_sound1.pause();
+            this.hurt_sound1.play();
+            // console.log(1)
+        } else {
+            // this.hurt_sound2.pause();
+            this.hurt_sound2.play();
+            // console.log(2)
+        }
+    }
 
 }

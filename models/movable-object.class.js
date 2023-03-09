@@ -6,7 +6,6 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
-    coins = 0;
 
 
     applyGravitiy() {
@@ -53,6 +52,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         this.energy -= 5;
+        console.log(this.energy)
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -68,11 +68,6 @@ class MovableObject extends DrawableObject {
 
     isDead() {
         return this.energy == 0;
-    }
-
-    getCoin() {
-        this.coins += 20;
-        console.log(this.coins);
     }
 
 }
