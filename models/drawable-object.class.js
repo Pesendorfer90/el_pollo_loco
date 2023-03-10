@@ -8,6 +8,7 @@ class DrawableObject {
     width = 100;
 
 
+
     
     loadImage(path) {
         this.img = new Image();
@@ -28,6 +29,13 @@ class DrawableObject {
 
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    write() {
+        this.ctx.font = "30px Comic Sans MS";
+        this.ctx.fillStyle = "red";
+        // this.textAlign = "center";
+        this.ctx.fillText('text', canvas.width / 2, canvas.height / 2);
     }
 
     remove(object, i) {

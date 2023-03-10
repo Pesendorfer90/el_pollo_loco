@@ -70,7 +70,7 @@ class World {
         // ----------- Space for fixed objects --------------
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
-        this.textToMap(this.coinBar);
+        // this.writeAA(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -102,13 +102,6 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-    }
-
-    textToMap(text) {
-        this.ctx.font = "30px Comic Sans MS";
-        this.ctx.fillStyle = "red";
-        // this.textAlign = "center";
-        this.ctx.fillText('text', canvas.width / 2, canvas.height / 2);
     }
 
 
