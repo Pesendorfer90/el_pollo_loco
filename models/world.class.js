@@ -105,10 +105,10 @@ class World {
     }
 
     textToMap(text) {
-        this.font = "30px Comic Sans MS";
-        this.fillStyle = "red";
-        this.textAlign = "center";
-        this.ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        this.ctx.font = "30px Comic Sans MS";
+        this.ctx.fillStyle = "red";
+        // this.textAlign = "center";
+        this.ctx.fillText('text', canvas.width / 2, canvas.height / 2);
     }
 
 
