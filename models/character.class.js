@@ -1,8 +1,10 @@
 class Character extends MovableObject {
 
     height = 280;
+    width = 100;
     y = 140;
     speed = 5;
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -39,11 +41,13 @@ class Character extends MovableObject {
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ]
+
     world;
     walking_sound = new Audio('audio/run.mp3');
     jumping_sound = new Audio('audio/jump.mp3');
     hurt_sound1 = new Audio('audio/hurt1.mp3');
     hurt_sound2 = new Audio('audio/hurt2.mp3');
+
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -55,8 +59,8 @@ class Character extends MovableObject {
         this.applyGravitiy();
     }
 
-    animate() {
 
+    animate() {
         setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -79,14 +83,14 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
 
+
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.fallDown();
             } else if (this.isHurt()) {
                 this.playHurtSound();
-                // this.hurt_sound.pause();
                 this.playAnimation(this.IMAGES_HURT);
-                // this.hurt_sound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
@@ -99,16 +103,13 @@ class Character extends MovableObject {
         }, 50)
     }
 
+
     playHurtSound() {
         let energy = this.energy
         if (/5/.test(energy)) {
-            // this.hurt_sound1.pause();
             this.hurt_sound1.play();
-            // console.log(1)
         } else {
-            // this.hurt_sound2.pause();
             this.hurt_sound2.play();
-            // console.log(2)
         }
     }
 

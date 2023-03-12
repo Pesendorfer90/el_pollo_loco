@@ -8,31 +8,34 @@ class World {
     camera_x = 0;
     statusBar = new StatusBar();
     coinBar = new CoinBar();
+    salsaBottleBar = new SalsaBottleBar();
 
     constructor(canvas) {
-        this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
         this.checkCollisions();
     }
 
+
     setWorld() {
         this.character.world = this;
     }
+
 
     checkCollisions() {
         setInterval(() => {
             this.enemyCollision();
             this.coinCollision();
-            // bottleCollision();
+            this.bottleCollision();
         }, 200)
 
     }
 
+
     enemyCollision() {
-        // setInterval(() => {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidiong(enemy)) {
                 console.log(enemy);
@@ -41,18 +44,28 @@ class World {
 
             }
         })
-        // }, 200)
     }
+
+
     coinCollision() {
         this.level.coin.forEach((coin, i) => {
             if (this.character.isCollidiong(coin)) {
                 this.coinBar.getCoin();
-                this.coinBar.setCoins();
                 this.level.coin.splice(i, 1);
             }
         })
     }
-    // bottleCollision();
+
+
+    bottleCollision() {
+        this.level.salsaBottle.forEach((salsaBottle, i) => {
+            if (this.character.isCollidiong(salsaBottle)) {
+                this.salsaBottleBar.getBottle();
+                this.level.salsaBottle.splice(i, 1);
+            }
+        })
+    }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -65,12 +78,15 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
+        this.addObjectsToMap(this.level.salsaBottle);
 
         this.ctx.translate(-this.camera_x, 0);
         // ----------- Space for fixed objects --------------
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
-        // this.writeAA(this.coinBar);
+        this.addToMap(this.coinBar, 'coin');
+        this.addToMap(this.salsaBottleBar);
+        this.addToMap(this.salsaBottleBar, 'bottle');
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -90,13 +106,17 @@ class World {
     }
 
 
-    addToMap(mo) {
+    addToMap(mo, i) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
+        if (i == undefined) {
+            mo.draw(this.ctx);
+            mo.drawFrame(this.ctx);
+        } else {
+            mo.write(this.ctx, i)
+        }
 
-        mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {

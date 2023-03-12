@@ -2,7 +2,7 @@ class MovableObject extends DrawableObject {
     x = 0;
     speed = 0.12;
     otherDirection = false;
-    speedY = 00;
+    speedY = 0;
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
@@ -10,10 +10,10 @@ class MovableObject extends DrawableObject {
 
     applyGravitiy() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            }
+                if (this.isAboveGround() || this.speedY > 0) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
         }, 1000 / 25)
     }
 
@@ -42,12 +42,22 @@ class MovableObject extends DrawableObject {
     jump() {
         this.speedY = 20;
     }
-        
+
+
+    fallDown() {
+        setInterval(() => {
+            this.speedY = 10
+            this.acceleration = 1.5;
+            this.y += 1;
+        }, 1000 / 60)
+    }
+
+
     isCollidiong(mo) {
         return this.x + this.width > mo.x &&
-        this.y + this.height > mo.y &&
-        this.x < mo.x &&
-        this.y < mo.y +mo.height
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height
     }
 
     hit() {

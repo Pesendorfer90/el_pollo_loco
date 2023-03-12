@@ -2,14 +2,19 @@ class DrawableObject {
     img;
     imageCache = {};
     currentImage = 0;
-    x = 120;
-    y = 280;
-    height = 150;
-    width = 100;
-
-
+    x;
+    y;
+    height;
+    width;
+    textColor;
+    font;
+    fontX;
+    fontY;
+    // coins;
+    // bottles;
 
     
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -27,21 +32,28 @@ class DrawableObject {
         });
     }
 
+
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    write() {
-        this.ctx.font = "30px Comic Sans MS";
-        this.ctx.fillStyle = "red";
-        // this.textAlign = "center";
-        this.ctx.fillText('text', canvas.width / 2, canvas.height / 2);
+
+    write(ctx, item) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.textColor;
+        if (item == 'coin') {
+            ctx.fillText(this.coins, this.fontX, this.fontY);
+        } else {
+            ctx.fillText(this.bottles, this.fontX, this.fontY);
+        }
     }
+
 
     remove(object, i) {
         console.log(object, i)
         object.splice(i, 1);
     }
+
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin) {
