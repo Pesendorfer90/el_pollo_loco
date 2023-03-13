@@ -10,10 +10,10 @@ class MovableObject extends DrawableObject {
 
     applyGravitiy() {
         setInterval(() => {
-                if (this.isAboveGround() || this.speedY > 0) {
-                    this.y -= this.speedY;
-                    this.speedY -= this.acceleration;
-                }
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
         }, 1000 / 25)
     }
 
@@ -58,6 +58,13 @@ class MovableObject extends DrawableObject {
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height
+    }
+
+
+    jumpOnEnemy(mo) {
+        return this.x + this.width > mo.x &&
+            this.x < mo.x &&
+            this.y + this.height > mo.y
     }
 
     hit() {

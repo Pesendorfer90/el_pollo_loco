@@ -30,18 +30,18 @@ class World {
             this.enemyCollision();
             this.coinCollision();
             this.bottleCollision();
-        }, 200)
-
+        }, 150)
     }
 
 
     enemyCollision() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isCollidiong(enemy)) {
-                console.log(enemy);
-                this.character.hit();
-                this.statusBar.setHealth(this.character.energy);
-
+            if (this.character.isCollidiong(enemy) && this.character.isHurt() == false) {
+                this.enemyCollides(enemy);
+            }
+            if (this.character.jumpOnEnemy(enemy)) {
+                console.log('enemy dead', enemy);
+                this.level.enemies.splice(enemy, 1);
             }
         })
     }
@@ -50,8 +50,8 @@ class World {
     coinCollision() {
         this.level.coin.forEach((coin, i) => {
             if (this.character.isCollidiong(coin)) {
-                this.coinBar.getCoin();
                 this.level.coin.splice(i, 1);
+                this.coinBar.getCoin();
             }
         })
     }
@@ -64,6 +64,15 @@ class World {
                 this.level.salsaBottle.splice(i, 1);
             }
         })
+    }
+
+
+    enemyCollides(enemy) {
+        if (this.character.isHurt() == false) {
+        console.log(enemy);
+        this.character.hit();
+        this.statusBar.setHealth(this.character.energy);
+        }
     }
 
 
