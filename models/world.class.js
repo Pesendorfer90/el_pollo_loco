@@ -30,17 +30,19 @@ class World {
             this.enemyCollision();
             this.coinCollision();
             this.bottleCollision();
-        }, 150)
+        }, 50)
     }
 
 
     enemyCollision() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isCollidiong(enemy) && this.character.isHurt() == false) {
+            if (this.character.isCollidiong(enemy) && this.character.isHurt() == false && this.character.isAboveGround() == false) {
                 this.enemyCollides(enemy);
+                console.log(this.character.isAboveGround())
             }
-            if (this.character.jumpOnEnemy(enemy)) {
+            if (this.character.jumpOnEnemy(enemy) && this.character.isAboveGround() == true) {
                 console.log('enemy dead', enemy);
+                console.log(this.character.isAboveGround())
                 this.level.enemies.splice(enemy, 1);
             }
         })
