@@ -67,6 +67,7 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
+                console.log(this.y)
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -86,21 +87,29 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                this.playAnimationLoop(this.IMAGES_DEAD);
                 this.fallDown();
             } else if (this.isHurt()) {
                 this.playHurtSound();
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else {
+                this.playAnimationLoop(this.IMAGES_HURT);
+            } 
+            // else if (this.isAboveGround()) {
+            //     this.playAnimation(this.IMAGES_JUMPING);
+            // } 
+            else {
 
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     // Walk animation
-                    this.playAnimation(this.IMAGES_WALKING);
+                    this.playAnimationLoop(this.IMAGES_WALKING);
                 }
             }
         }, 50)
+
+        setInterval(() => {
+            if (this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            }
+        }, 58)
     }
 
 

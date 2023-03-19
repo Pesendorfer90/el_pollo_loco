@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
     speed = 0.12;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 0.8;
     energy = 100;
     lastHit = 0;
 
@@ -14,14 +14,37 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 25)
+        }, 1000 / 60)
+
+        setInterval(() => {
+            if (!this.isAboveGround) {
+                this.character.speedY = 0;
+                this.character.y = 140;
+            }
+        }, 1)
     }
 
     isAboveGround() {
         return this.y < 140;
     }
 
+
+    isPositiv() {
+        return this.speedY < 0;
+    }
+
+
     playAnimation(images) {
+            let i = this.currentImage;
+            let path = images[i];
+            this.img = this.imageCache[path];
+        if (!images.length == this.currentImage) {
+            this.currentImage++;
+        }
+    }
+
+
+    playAnimationLoop(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
@@ -40,7 +63,7 @@ class MovableObject extends DrawableObject {
 
 
     jump() {
-        this.speedY = 20;
+        this.speedY = 12;
     }
 
 
@@ -54,16 +77,16 @@ class MovableObject extends DrawableObject {
 
 
     isCollidiong(mo) {
-        return this.x + this.width > mo.x &&
+        return this.x + this.width - 30 > mo.x &&
             this.y + this.height > mo.y &&
-            this.x < mo.x &&
+            this.x - 30 < mo.x &&
             this.y < mo.y + mo.height
     }
 
 
     jumpOnEnemy(mo) {
-        return this.x + this.width > mo.x &&
-            this.x < mo.x &&
+        return this.x + this.width - 30 > mo.x &&
+            this.x - 30 < mo.x &&
             this.y + this.height > mo.y
     }
 
