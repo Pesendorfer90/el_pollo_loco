@@ -34,16 +34,6 @@ class MovableObject extends DrawableObject {
     }
 
 
-    playAnimation(images) {
-            let i = this.currentImage;
-            let path = images[i];
-            this.img = this.imageCache[path];
-        if (!images.length == this.currentImage) {
-            this.currentImage++;
-        }
-    }
-
-
     playAnimationLoop(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -72,7 +62,7 @@ class MovableObject extends DrawableObject {
             this.speedY = 10
             this.acceleration = 1.5;
             this.y += 1;
-        }, 1000 / 60)
+        }, 1000 / 600)
     }
 
 
