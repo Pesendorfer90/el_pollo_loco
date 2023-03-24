@@ -38,20 +38,6 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.enemyHurtCharacter(enemy);
             this.characterHurtEnemy(enemy);
-            // if (this.character.isCollidiong(enemy) &&
-            //     this.character.isHurt() == false &&
-            //     !enemy.isDead() &&
-            //     this.character.isAboveGround() == false) {
-            //     this.enemyCollides(enemy);
-            // }
-            // if (this.character.jumpOnEnemy(enemy) &&
-            //     this.character.isAboveGround() == true &&
-            //     this.character.isPositiv() &&
-            //     !enemy.isDead()) {
-            //     enemy.speed = 0;
-            //     enemy.energy = 0;
-            //     this.character.jump();
-            // }
         })
     }
     
@@ -100,7 +86,7 @@ class World {
 
     enemyCollides(enemy) {
         if (this.character.isHurt() == false) {
-            console.log(enemy);
+//            console.log(enemy);
             this.character.hit();
             this.statusBar.setHealth(this.character.energy);
         }

@@ -4,7 +4,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 0.8;
-    energy = 100;
+    energy = 10;
     lastHit = 0;
 
 
@@ -38,7 +38,7 @@ class MovableObject extends DrawableObject {
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
-        this.currentImage++;
+        this.currentImage++;       
     }
 
 
@@ -59,10 +59,10 @@ class MovableObject extends DrawableObject {
 
     fallDown() {
         setInterval(() => {
-            this.speedY = 10
-            this.acceleration = 1.5;
+            this.speedY = 12
+            this.acceleration = 5.5;
             this.y += 1;
-        }, 1000 / 600)
+        }, 1)
     }
 
 

@@ -33,7 +33,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-54.png',
         'img/2_character_pepe/5_dead/D-55.png',
         'img/2_character_pepe/5_dead/D-56.png',
-        'img/2_character_pepe/5_dead/D-57.png'
+        // 'img/2_character_pepe/5_dead/D-57.png'
     ];
 
     IMAGES_HURT = [
@@ -75,6 +75,8 @@ class Character extends MovableObject {
     hurt_sound2 = new Audio('audio/hurt2.mp3');
 
     characterDead = false;
+    movementInterval;
+    animateInterval;
 
 
     constructor() {
@@ -91,13 +93,13 @@ class Character extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        this.movementInterval = setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
-                console.log(this.y)
+                // console.log(this.y)
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -115,17 +117,22 @@ class Character extends MovableObject {
         }, 1000 / 60)
 
 
-        setInterval(() => {
+        this.animateInterval = setInterval(() => {
             if (this.isDead() && this.characterDead == false) {
-                console.log('tot')
+                this.characterDead = true;
+                console.log('tot');
+                clearInterval( this.animateInterval);
+                clearInterval( this.movementInterval);
                 // this.playAnimationLoop(this.IMAGES_DEAD);
                 // this.fallDown();
                 this.deadAnimation();
-            } else if (this.isHurt()) {
+            } else if (this.isHurt() && this.characterDead == false) {
                 this.playHurtSound();
+                console.log('hurt');
                 this.playAnimationLoop(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
+            } else if (this.isAboveGround() && this.characterDead == false) {
                 this.playAnimationLoop(this.IMAGES_JUMPING);
+                console.log('jump');
             } else {
 
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -139,10 +146,25 @@ class Character extends MovableObject {
 
     deadAnimation() {
         this.characterDead = true;
+
+        let counter = 0;
+        const intervalId = setInterval(() => {
+            if (counter >= 5) {
+                clearInterval(intervalId);
+            } else {
+               this.playAnimationLoop(this.IMAGES_DEAD);
+                console.log('loop');
+                counter++;
+            }
+        }, 150);
+
+
+        setTimeout(() => {
         setInterval(() => {
-            this.playAnimationLoop(this.IMAGES_DEAD);
+            
             this.fallDown();
-        }, 2000)
+        }, 120)
+    }, 230)
     }
 
 
