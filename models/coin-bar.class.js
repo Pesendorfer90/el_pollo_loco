@@ -20,7 +20,7 @@ class CoinBar extends DrawableObject {
     getCoin() {
         this.coin_sound.pause();
         this.coins += 1;
-        console.log(this.coins);
+        // console.log(this.coins);
         this.coin_sound.play();
     }
 }

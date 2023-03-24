@@ -10,10 +10,8 @@ class DrawableObject {
     font;
     fontX;
     fontY;
-    // coins;
-    // bottles;
+    alpha;
 
-    
 
     loadImage(path) {
         this.img = new Image();
@@ -34,6 +32,9 @@ class DrawableObject {
 
 
     draw(ctx) {
+        if (!this.alpha == undefined) {
+            ctx.globalAlpha = 0;
+        }
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 

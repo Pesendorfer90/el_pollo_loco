@@ -15,8 +15,8 @@ class Character extends MovableObject {
     ];
 
     IMAGES_JUMPING = [
-        'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
+        // 'img/2_character_pepe/3_jump/J-31.png',
+        // 'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
@@ -75,8 +75,11 @@ class Character extends MovableObject {
     hurt_sound2 = new Audio('audio/hurt2.mp3');
 
     characterDead = false;
+    characterJumping = false;
     movementInterval;
     animateInterval;
+    intervalJump;
+    jumpCounter;
 
 
     constructor() {
@@ -99,7 +102,6 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
-                // console.log(this.y)
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -120,23 +122,18 @@ class Character extends MovableObject {
         this.animateInterval = setInterval(() => {
             if (this.isDead() && this.characterDead == false) {
                 this.characterDead = true;
-                console.log('tot');
-                clearInterval( this.animateInterval);
-                clearInterval( this.movementInterval);
-                // this.playAnimationLoop(this.IMAGES_DEAD);
-                // this.fallDown();
+                clearInterval(this.animateInterval);  // extra function
+                clearInterval(this.movementInterval);  // das auch
                 this.deadAnimation();
             } else if (this.isHurt() && this.characterDead == false) {
                 this.playHurtSound();
-                console.log('hurt');
                 this.playAnimationLoop(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && this.characterDead == false) {
-                this.playAnimationLoop(this.IMAGES_JUMPING);
-                console.log('jump');
+            } else if (this.isAboveGround() && this.characterDead == false && this.characterJumping == false) {
+                this.jumpAnimation();
             } else {
 
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    // Walk animation
+                if (this.world.keyboard.RIGHT && this.characterJumping == false ||
+                    this.world.keyboard.LEFT && this.characterJumping == false) {
                     this.playAnimationLoop(this.IMAGES_WALKING);
                 }
             }
@@ -152,7 +149,7 @@ class Character extends MovableObject {
             if (counter >= 5) {
                 clearInterval(intervalId);
             } else {
-               this.playAnimationLoop(this.IMAGES_DEAD);
+                this.playAnimationLoop(this.IMAGES_DEAD);
                 console.log('loop');
                 counter++;
             }
@@ -160,11 +157,11 @@ class Character extends MovableObject {
 
 
         setTimeout(() => {
-        setInterval(() => {
-            
-            this.fallDown();
-        }, 120)
-    }, 230)
+            setInterval(() => {
+
+                this.fallDown();
+            }, 120)
+        }, 230)
     }
 
 
@@ -175,6 +172,25 @@ class Character extends MovableObject {
         } else {
             this.hurt_sound2.play();
         }
+    }
+
+
+    jumpAnimation() {
+        this.characterJumping = true;
+
+        this.jumpCounter = 0;
+        this.intervalJump = setInterval(() => {
+            if (this.jumpCounter >= 7) {
+                clearInterval(this.intervalJump);
+                this.characterJumping = false;
+            } else {
+                this.playAnimationLoop(this.IMAGES_JUMPING);
+                console.log('loop');
+                console.log(this.jumpCounter)
+                this.jumpCounter++;
+            }
+        }, 90);
+
     }
 
 }

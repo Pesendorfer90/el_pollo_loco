@@ -23,7 +23,7 @@ class SalsaBottleBar extends DrawableObject {
     getBottle() {
         this.salsaBottle_sound.pause();
         this.bottles += 1;
-        console.log(this.bottles);
+        // console.log(this.bottles);
         this.salsaBottle_sound.play();
     }
 }

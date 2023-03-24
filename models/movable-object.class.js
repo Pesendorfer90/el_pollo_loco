@@ -53,6 +53,9 @@ class MovableObject extends DrawableObject {
 
 
     jump() {
+        clearInterval(this.intervalJump);
+        this.jumpCounter = 0;
+        this.characterJumping = false;
         this.speedY = 12;
     }
 

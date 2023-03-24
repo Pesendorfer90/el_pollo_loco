@@ -1,6 +1,7 @@
 class World {
 
     character = new Character();
+    gameOver = new GameOver();
     level = level1;
     canvas;
     ctx;
@@ -113,6 +114,7 @@ class World {
         this.addToMap(this.coinBar, 'coin');
         this.addToMap(this.salsaBottleBar);
         this.addToMap(this.salsaBottleBar, 'bottle');
+        this.addToMap(this.gameOver);
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
