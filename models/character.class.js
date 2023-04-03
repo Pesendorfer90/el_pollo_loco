@@ -115,6 +115,12 @@ class Character extends MovableObject {
                 this.jumping_sound.play();
             }
 
+            //________INTERVAL ZU SCHNELL_________________
+            if (this.world.keyboard.THROW) {
+                let bottle = new ThrowableObject(world.character.x, world.character.y);
+                world.throwableObject.push(bottle);
+            }
+
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
 

@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     acceleration = 0.8;
     energy = 10;
     lastHit = 0;
+    lastThrow = 0;
 
 
     applyGravitiy() {
@@ -21,11 +22,15 @@ class MovableObject extends DrawableObject {
                 this.speedY = 0;
                 this.y = 140;
             }
-        }, 1)
+        }, 10)
     }
 
     isAboveGround() {
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
         return this.y < 140;
+        }
     }
 
 

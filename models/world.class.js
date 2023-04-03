@@ -1,17 +1,20 @@
 class World {
 
+    startScreen = new StartScreen();
     character = new Character();
-    gameOver = new GameOver(this.IMAGE_GAMEOVER);
-    youLost = new GameOver(this.IMGAGE_LOST);
+    gameOver = new GameOver();
+    youLost = new YouLost();
+    statusBar = new StatusBar();
+    coinBar = new CoinBar();
+    salsaBottleBar = new SalsaBottleBar();
+    throwableObject = [];
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
-    coinBar = new CoinBar();
-    salsaBottleBar = new SalsaBottleBar();
     alphaLost = 0;
+    gameStarted = false;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -101,29 +104,39 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectsToMap(this.level.backgroundObjects);
+        if (this.gameStarted) {
+            this.addObjectsToMap(this.level.backgroundObjects);
 
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.coin);
-        this.addObjectsToMap(this.level.salsaBottle);
+            this.addToMap(this.character);
+            this.addObjectsToMap(this.level.clouds);
+            this.addObjectsToMap(this.level.enemies);
+            this.addObjectsToMap(this.throwableObject);
+            this.addObjectsToMap(this.level.coin);
+            this.addObjectsToMap(this.level.salsaBottle);
 
-        this.ctx.translate(-this.camera_x, 0);
-        // ----------- Space for fixed objects --------------
-        this.addToMap(this.statusBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.coinBar, 'coin');
-        this.addToMap(this.salsaBottleBar);
-        this.addToMap(this.salsaBottleBar, 'bottle');
-        
-        // ----------- Space for transparent IMG ------------
-        if (this.character.characterDead == true) {
-            this.ctx.globalAlpha = this.alphaLost;
-            this.addToMap(this.youLost);
-            this.ctx.globalAlpha = 1;
+            this.ctx.translate(-this.camera_x, 0);
+            // ----------- Space for fixed objects --------------
+            this.addToMap(this.statusBar);
+            this.addToMap(this.coinBar);
+            this.addToMap(this.coinBar, 'coin');
+            this.addToMap(this.salsaBottleBar);
+            this.addToMap(this.salsaBottleBar, 'bottle');
+
+            // ----------- Space for transparent IMG ------------
+            if (this.character.characterDead == true) {
+                this.ctx.globalAlpha = this.alphaLost;
+                this.addToMap(this.youLost);
+                this.ctx.globalAlpha = 1;
+            }
+
+            this.ctx.translate(this.camera_x, 0);
         }
 
+        this.ctx.translate(-this.camera_x, 0);
+        //----------- Space for fixed objects at Start --------------
+        if (!this.gameStarted) {  
+        this.addToMap(this.startScreen);
+        }
 
         this.ctx.translate(this.camera_x, 0);
 
@@ -177,8 +190,5 @@ class World {
     }
 
 
-    // setTransparency() {
-    //     this.alpha += 0.1;
-    // }
 
 }
