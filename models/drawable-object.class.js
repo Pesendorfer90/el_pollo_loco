@@ -10,7 +10,7 @@ class DrawableObject {
     font;
     fontX;
     fontY;
-    alpha;
+    alpha = 0;
 
 
     loadImage(path) {
@@ -32,9 +32,6 @@ class DrawableObject {
 
 
     draw(ctx) {
-        if (!this.alpha == undefined) {
-            ctx.globalAlpha = 0;
-        }
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
@@ -64,5 +61,18 @@ class DrawableObject {
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
+    }
+
+
+    fadeInImg() {
+        setTimeout(() => {
+        setInterval(() => {
+            this.setTransparency();
+        }, 20) }, 1000)
+    }
+
+
+    setTransparency() {
+        world.alphaLost += 0.01;
     }
 }

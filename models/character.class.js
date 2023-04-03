@@ -125,6 +125,7 @@ class Character extends MovableObject {
                 clearInterval(this.animateInterval);  // extra function
                 clearInterval(this.movementInterval);  // das auch
                 this.deadAnimation();
+                this.gameOver();
             } else if (this.isHurt() && this.characterDead == false) {
                 this.playHurtSound();
                 this.playAnimationLoop(this.IMAGES_HURT);
@@ -185,12 +186,19 @@ class Character extends MovableObject {
                 this.characterJumping = false;
             } else {
                 this.playAnimationLoop(this.IMAGES_JUMPING);
-                console.log('loop');
-                console.log(this.jumpCounter)
                 this.jumpCounter++;
             }
         }, 90);
+    }
 
+
+    gameOver() {
+        console.log(world.character.characterDead);
+        if (world.character.characterDead == true) {
+            // setTimeout(() => {
+                this.fadeInImg();
+            // }, 100)
+        }
     }
 
 }

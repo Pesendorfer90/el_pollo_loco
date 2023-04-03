@@ -1,7 +1,8 @@
 class World {
 
     character = new Character();
-    gameOver = new GameOver();
+    gameOver = new GameOver(this.IMAGE_GAMEOVER);
+    youLost = new GameOver(this.IMGAGE_LOST);
     level = level1;
     canvas;
     ctx;
@@ -10,6 +11,7 @@ class World {
     statusBar = new StatusBar();
     coinBar = new CoinBar();
     salsaBottleBar = new SalsaBottleBar();
+    alphaLost = 0;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -41,27 +43,27 @@ class World {
             this.characterHurtEnemy(enemy);
         })
     }
-    
+
 
     enemyHurtCharacter(enemy) {
         if (this.character.isCollidiong(enemy) &&
-                this.character.isHurt() == false &&
-                !enemy.isDead() &&
-                this.character.isAboveGround() == false) {
-                this.enemyCollides(enemy);
-            }
+            this.character.isHurt() == false &&
+            !enemy.isDead() &&
+            this.character.isAboveGround() == false) {
+            this.enemyCollides(enemy);
+        }
     }
 
 
     characterHurtEnemy(enemy) {
         if (this.character.jumpOnEnemy(enemy) &&
-        this.character.isAboveGround() == true &&
-        this.character.isPositiv() &&
-        !enemy.isDead()) {
-        enemy.speed = 0;
-        enemy.energy = 0;
-        this.character.jump();
-    }
+            this.character.isAboveGround() == true &&
+            this.character.isPositiv() &&
+            !enemy.isDead()) {
+            enemy.speed = 0;
+            enemy.energy = 0;
+            this.character.jump();
+        }
     }
 
 
@@ -87,7 +89,7 @@ class World {
 
     enemyCollides(enemy) {
         if (this.character.isHurt() == false) {
-//            console.log(enemy);
+            //            console.log(enemy);
             this.character.hit();
             this.statusBar.setHealth(this.character.energy);
         }
@@ -114,7 +116,15 @@ class World {
         this.addToMap(this.coinBar, 'coin');
         this.addToMap(this.salsaBottleBar);
         this.addToMap(this.salsaBottleBar, 'bottle');
-        this.addToMap(this.gameOver);
+        
+        // ----------- Space for transparent IMG ------------
+        if (this.character.characterDead == true) {
+            this.ctx.globalAlpha = this.alphaLost;
+            this.addToMap(this.youLost);
+            this.ctx.globalAlpha = 1;
+        }
+
+
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -165,4 +175,10 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
+
+    // setTransparency() {
+    //     this.alpha += 0.1;
+    // }
+
 }
