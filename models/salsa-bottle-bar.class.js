@@ -13,6 +13,8 @@ class SalsaBottleBar extends DrawableObject {
         this.y = 45;
         this.width = 60;
         this.height = 60;
+
+        this.text = this.bottles;
         this.textColor = 'white';
         this.font = '28px Comic Sans MS';
         this.fontX = 160;
@@ -23,6 +25,7 @@ class SalsaBottleBar extends DrawableObject {
     getBottle() {
         this.salsaBottle_sound.pause();
         this.bottles += 1;
+        this.text = this.bottles;
         // console.log(this.bottles);
         this.salsaBottle_sound.play();
     }

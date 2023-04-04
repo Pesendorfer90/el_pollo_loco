@@ -75,4 +75,4 @@ window.addEventListener('keyup', (event) => {
     if (event.keyCode == 16) {
         keyboard.THROW = false;
     }
-})
+});

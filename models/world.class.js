@@ -92,7 +92,6 @@ class World {
 
     enemyCollides(enemy) {
         if (this.character.isHurt() == false) {
-            //            console.log(enemy);
             this.character.hit();
             this.statusBar.setHealth(this.character.energy);
         }
@@ -118,9 +117,9 @@ class World {
             // ----------- Space for fixed objects --------------
             this.addToMap(this.statusBar);
             this.addToMap(this.coinBar);
-            this.addToMap(this.coinBar, 'coin');
+            this.addToMap(this.coinBar, 'text');
             this.addToMap(this.salsaBottleBar);
-            this.addToMap(this.salsaBottleBar, 'bottle');
+            this.addToMap(this.salsaBottleBar, 'text');
 
             // ----------- Space for transparent IMG ------------
             if (this.character.characterDead == true) {
@@ -134,8 +133,9 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         //----------- Space for fixed objects at Start --------------
-        if (!this.gameStarted) {  
-        this.addToMap(this.startScreen);
+        if (!this.gameStarted) {
+            this.addToMap(this.startScreen);
+            this.addToMap(this.startScreen, 'text');
         }
 
         this.ctx.translate(this.camera_x, 0);
@@ -160,17 +160,12 @@ class World {
     addToMap(mo, i) {
         if (mo.otherDirection) {
             this.flipImage(mo);
-        }
-        if (i == undefined) {
+        } if (i == 'text') {
+            mo.write(this.ctx, i)
+        } else {
             mo.draw(this.ctx);
             mo.drawFrame(this.ctx);
-        } else {
-            mo.write(this.ctx, i)
-        }
-
-
-
-        if (mo.otherDirection) {
+        } if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }

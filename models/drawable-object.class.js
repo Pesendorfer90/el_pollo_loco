@@ -36,14 +36,10 @@ class DrawableObject {
     }
 
 
-    write(ctx, item) {
+    write(ctx) {
         ctx.font = this.font;
         ctx.fillStyle = this.textColor;
-        if (item == 'coin') {
-            ctx.fillText(this.coins, this.fontX, this.fontY);
-        } else {
-            ctx.fillText(this.bottles, this.fontX, this.fontY);
-        }
+        ctx.fillText(this.text, this.fontX, this.fontY);
     }
 
 

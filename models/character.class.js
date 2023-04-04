@@ -80,6 +80,7 @@ class Character extends MovableObject {
     animateInterval;
     intervalJump;
     jumpCounter;
+    lastThrow;
 
 
     constructor() {
@@ -117,8 +118,9 @@ class Character extends MovableObject {
 
             //________INTERVAL ZU SCHNELL_________________
             if (this.world.keyboard.THROW) {
-                let bottle = new ThrowableObject(world.character.x, world.character.y);
-                world.throwableObject.push(bottle);
+                if (this.lastTimeThrow() == false) {
+                    this.throwBottle();
+                }
             }
 
             this.world.camera_x = -this.x + 100;
@@ -145,6 +147,20 @@ class Character extends MovableObject {
                 }
             }
         }, 60)
+    }
+
+
+    throwBottle() {
+        let bottle = new ThrowableObject(world.character.x + 35, world.character.y + 110);
+        world.throwableObject.push(bottle);
+        this.lastThrow = new Date().getTime();
+    }
+
+
+    lastTimeThrow() {
+        let timepassed = new Date().getTime() - this.lastThrow; // Difference in ms
+        timepassed = timepassed / 1000 // Difference in sec
+        return timepassed < 0.5;
     }
 
 
@@ -199,10 +215,9 @@ class Character extends MovableObject {
 
 
     gameOver() {
-        console.log(world.character.characterDead);
         if (world.character.characterDead == true) {
             // setTimeout(() => {
-                this.fadeInImg();
+            this.fadeInImg();
             // }, 100)
         }
     }
