@@ -6,8 +6,10 @@ const level1 = new Level(
         new Chicken(4),
         new Chicken(5),
         new Chicken(6),
-        new Chicken(7),
-        new Endboss(8)
+        new Chicken(7)
+    ],
+    [
+        new Endboss()
     ],
     [
         new Cloud(),

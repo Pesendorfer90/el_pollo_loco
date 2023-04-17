@@ -103,6 +103,7 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
+                // console.log(this.x)
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -116,7 +117,6 @@ class Character extends MovableObject {
                 this.jumping_sound.play();
             }
 
-            //________INTERVAL ZU SCHNELL_________________
             if (this.world.keyboard.THROW) {
                 if (this.lastTimeThrow() == false) {
                     this.throwBottle();
@@ -128,13 +128,13 @@ class Character extends MovableObject {
 
 
         this.animateInterval = setInterval(() => {
-            if (this.isDead() && this.characterDead == false) {
+            if (this.isDead() && !this.characterDead) {
                 this.characterDead = true;
                 clearInterval(this.animateInterval);  // extra function
                 clearInterval(this.movementInterval);  // das auch
-                this.deadAnimation();
-                this.gameOver();
-            } else if (this.isHurt() && this.characterDead == false) {
+                this.deadAnimation(5);
+                this.youLost();
+            } else if (this.isHurt() && !this.characterDead) {
                 this.playHurtSound();
                 this.playAnimationLoop(this.IMAGES_HURT);
             } else if (this.isAboveGround() && this.characterDead == false && this.characterJumping == false) {
@@ -151,9 +151,11 @@ class Character extends MovableObject {
 
 
     throwBottle() {
-        let bottle = new ThrowableObject(world.character.x + 35, world.character.y + 110);
-        world.throwableObject.push(bottle);
-        this.lastThrow = new Date().getTime();
+        if (world.salsaBottleBar.bottles) {
+            let bottle = new ThrowableObject(world.character.x + 35, world.character.y + 110);
+            world.throwableObject.push(bottle);
+            this.lastThrow = new Date().getTime();
+        }
     }
 
 
@@ -161,30 +163,6 @@ class Character extends MovableObject {
         let timepassed = new Date().getTime() - this.lastThrow; // Difference in ms
         timepassed = timepassed / 1000 // Difference in sec
         return timepassed < 0.5;
-    }
-
-
-    deadAnimation() {
-        this.characterDead = true;
-
-        let counter = 0;
-        const intervalId = setInterval(() => {
-            if (counter >= 5) {
-                clearInterval(intervalId);
-            } else {
-                this.playAnimationLoop(this.IMAGES_DEAD);
-                console.log('loop');
-                counter++;
-            }
-        }, 150);
-
-
-        setTimeout(() => {
-            setInterval(() => {
-
-                this.fallDown();
-            }, 120)
-        }, 230)
     }
 
 
@@ -212,14 +190,4 @@ class Character extends MovableObject {
             }
         }, 90);
     }
-
-
-    gameOver() {
-        if (world.character.characterDead == true) {
-            // setTimeout(() => {
-            this.fadeInImg();
-            // }, 100)
-        }
-    }
-
 }

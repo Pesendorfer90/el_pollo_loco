@@ -29,7 +29,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-        return this.y < 140;
+            return this.y < 140;
         }
     }
 
@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
-        this.currentImage++;       
+        this.currentImage++;
     }
 
 
@@ -88,8 +88,8 @@ class MovableObject extends DrawableObject {
             this.y + this.height > mo.y
     }
 
-    hit() {
-        this.energy -= 5;
+    hit(i) {
+        this.energy -= i;
         console.log(this.energy)
         if (this.energy < 0) {
             this.energy = 0;
@@ -108,4 +108,34 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+
+    deadAnimation(i) {
+        let counter = 0;
+        const intervalId = setInterval(() => {
+            if (counter >= i) {
+                clearInterval(intervalId);
+            } else {
+                this.playAnimationLoop(this.IMAGES_DEAD);
+                counter++;
+            }
+        }, 150);
+
+        if (world.character.characterDead) {
+            setTimeout(() => {
+                setInterval(() => {
+                    this.fallDown();
+                }, 120)
+            }, 230)
+        }
+    }
+
+
+    youLost() {
+        this.fadeInImg('alphaLost');
+    }
+
+
+    gameOver() {
+        this.fadeInImg('alphaGameOver');
+    }
 }

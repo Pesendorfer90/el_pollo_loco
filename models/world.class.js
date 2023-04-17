@@ -1,10 +1,12 @@
 class World {
 
     startScreen = new StartScreen();
+    startButton = new StartButton();
     character = new Character();
     gameOver = new GameOver();
     youLost = new YouLost();
     statusBar = new StatusBar();
+    healthBarEndboss = new HealthBarEndboss();
     coinBar = new CoinBar();
     salsaBottleBar = new SalsaBottleBar();
     throwableObject = [];
@@ -14,6 +16,8 @@ class World {
     keyboard;
     camera_x = 0;
     alphaLost = 0;
+    alphaGameOver = 0;
+    alphaEndbossHealthBar = 0;
     gameStarted = false;
 
     constructor(canvas) {
@@ -44,6 +48,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.enemyHurtCharacter(enemy);
             this.characterHurtEnemy(enemy);
+            this.bottleHitBoss(enemy);
         })
     }
 
@@ -90,11 +95,24 @@ class World {
     }
 
 
-    enemyCollides(enemy) {
+    enemyCollides() {
         if (this.character.isHurt() == false) {
-            this.character.hit();
+            this.character.hit('5');
             this.statusBar.setHealth(this.character.energy);
         }
+    }
+
+
+    bottleHitBoss() {
+        this.throwableObject.forEach((salsaBottle, i) => {
+            this.level.endboss.forEach((endboss) => {
+                if (endboss.isCollidiong(salsaBottle) && endboss.isHurt() == false) {
+                    endboss.hit('20');
+                    this.healthBarEndboss.setHealth(endboss.energy);
+            }
+            })
+            
+        })
     }
 
 
@@ -109,6 +127,7 @@ class World {
             this.addToMap(this.character);
             this.addObjectsToMap(this.level.clouds);
             this.addObjectsToMap(this.level.enemies);
+            this.addObjectsToMap(this.level.endboss);
             this.addObjectsToMap(this.throwableObject);
             this.addObjectsToMap(this.level.coin);
             this.addObjectsToMap(this.level.salsaBottle);
@@ -120,11 +139,20 @@ class World {
             this.addToMap(this.coinBar, 'text');
             this.addToMap(this.salsaBottleBar);
             this.addToMap(this.salsaBottleBar, 'text');
+            
 
             // ----------- Space for transparent IMG ------------
-            if (this.character.characterDead == true) {
+            if (this.character.characterDead) {
                 this.ctx.globalAlpha = this.alphaLost;
                 this.addToMap(this.youLost);
+                this.ctx.globalAlpha = 1;
+            } if (this.level.endboss[0].endbossDead) {
+                this.ctx.globalAlpha = this.alphaGameOver;
+                this.addToMap(this.gameOver);
+                this.ctx.globalAlpha = 1;
+            } if (!this.level.endboss[0].hadFirstContact) {
+                this.ctx.globalAlpha = this.alphaEndbossHealthBar;
+                this.addToMap(this.healthBarEndboss);
                 this.ctx.globalAlpha = 1;
             }
 
@@ -135,7 +163,7 @@ class World {
         //----------- Space for fixed objects at Start --------------
         if (!this.gameStarted) {
             this.addToMap(this.startScreen);
-            this.addToMap(this.startScreen, 'text');
+            this.addToMap(this.startButton);
         }
 
         this.ctx.translate(this.camera_x, 0);
@@ -164,7 +192,7 @@ class World {
             mo.write(this.ctx, i)
         } else {
             mo.draw(this.ctx);
-            mo.drawFrame(this.ctx);
+            // mo.drawFrame(this.ctx);
         } if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

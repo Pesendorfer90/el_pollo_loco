@@ -60,15 +60,16 @@ class DrawableObject {
     }
 
 
-    fadeInImg() {
+    fadeInImg(alpha) {
         setTimeout(() => {
-        setInterval(() => {
-            this.setTransparency();
-        }, 20) }, 1000)
+            setInterval(() => {
+                this.setTransparency(alpha);
+            }, 20)
+        }, 1000)
     }
 
 
-    setTransparency() {
-        world.alphaLost += 0.01;
+    setTransparency(alpha) {
+        world[alpha] += 0.01;;
     }
 }
