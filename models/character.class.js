@@ -76,6 +76,7 @@ class Character extends MovableObject {
 
     characterDead = false;
     characterJumping = false;
+    characterMovement = false;
     movementInterval;
     animateInterval;
     intervalJump;
@@ -97,56 +98,59 @@ class Character extends MovableObject {
 
 
     animate() {
-        this.movementInterval = setInterval(() => {
-            this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.walking_sound.play();
-                // console.log(this.x)
-            }
+        setInterval(() => {
+            if (this.characterMovement) {
+                this.walking_sound.pause();
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    this.walking_sound.play();
+                    // console.log(this.x)
+                }
 
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.walking_sound.play();
-            }
+                if (this.world.keyboard.LEFT && this.x > 0) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    this.walking_sound.play();
+                }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
-                this.jumping_sound.play();
-            }
+                if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                    this.jump();
+                    this.jumping_sound.play();
+                }
 
-            if (this.world.keyboard.THROW) {
-                if (this.lastTimeThrow() == false) {
-                    this.throwBottle();
+                if (this.world.keyboard.THROW) {
+                    if (this.lastTimeThrow() == false) {
+                        this.throwBottle();
+                    }
                 }
             }
-
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
 
 
-        this.animateInterval = setInterval(() => {
-            if (this.isDead() && !this.characterDead) {
-                this.characterDead = true;
-                clearInterval(this.animateInterval);  // extra function
-                clearInterval(this.movementInterval);  // das auch
-                this.deadAnimation(5);
-                this.youLost();
-            } else if (this.isHurt() && !this.characterDead) {
-                this.playHurtSound();
-                this.playAnimationLoop(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && this.characterDead == false && this.characterJumping == false) {
-                this.jumpAnimation();
-            } else {
+        setInterval(() => {
+            if (this.characterMovement) {
+                if (this.isDead() && !this.characterDead) {
+                    this.characterDead = true;
+                    this.characterMovement = false;
+                    this.deadAnimation(5);
+                    this.youLost();
+                } else if (this.isHurt() && !this.characterDead) {
+                    this.playHurtSound();
+                    this.playAnimationLoop(this.IMAGES_HURT);
+                } else if (this.isAboveGround() && this.characterDead == false && this.characterJumping == false) {
+                    this.jumpAnimation();
+                } else {
 
-                if (this.world.keyboard.RIGHT && this.characterJumping == false ||
-                    this.world.keyboard.LEFT && this.characterJumping == false) {
-                    this.playAnimationLoop(this.IMAGES_WALKING);
+                    if (this.world.keyboard.RIGHT && this.characterJumping == false ||
+                        this.world.keyboard.LEFT && this.characterJumping == false) {
+                        this.playAnimationLoop(this.IMAGES_WALKING);
+                    }
                 }
             }
         }, 60)
+
     }
 
 

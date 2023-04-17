@@ -42,10 +42,12 @@ class Endboss extends MovableObject {
     ];
 
     endbossDead = false;
-    hadFirstContact;
+    animateEndboss = false;
+    animationIndex
 
     constructor() {
-        super().loadImages(this.IMAGES_WALKING);
+        super().loadImage(this.IMAGES_WALKING[0]);
+        this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
@@ -54,7 +56,7 @@ class Endboss extends MovableObject {
         this.width = 300;
         this.y = 20;
         this.x = 2500;
-        this.speed = 2.5;
+        this.speed = 4.5;
         this.energy = 100;
         this.animate();
     }
@@ -62,37 +64,45 @@ class Endboss extends MovableObject {
 
 
     animate() {
-        let hadFirstContact = false;
+        this.animationIndex = 0;
 
-        let i = 0;
         setInterval(() => {
-            if (i < 10) {
-                this.playAnimationLoop(this.IMAGES_WALKING);
-                this.moveLeft();
-            } if (i < 18) {
-                this.playAnimationLoop(this.IMAGES_ALERT);
-            } if (this.isHurt()) {
-                console.log('endboss hurt')
-                this.playAnimationLoop(this.IMAGES_HURT);
-            } if (condition) {
-                
+            if (this.animateEndboss) {
+                if (this.animationIndex < 35) {
+                    this.playAnimationLoop(this.IMAGES_WALKING);
+                    this.moveLeft();
+                    console.log(this.animationIndex, 'walk')
+                } if (this.animationIndex < 43 && this.animationIndex > 35) {
+                    this.playAnimationLoop(this.IMAGES_ALERT);
+                    console.log(this.animationIndex, 'alert');
+                    world.character.characterMovement = true;
+                } if (this.isHurt() && !this.isDead()) {
+                    console.log('endboss hurt')
+                    this.playAnimationLoop(this.IMAGES_HURT);
+                } if (this.isDead() && !this.endbossDead) {
+                    this.endbossDead = true;
+                    this.deadAnimation(2);
+                    this.gameOver();
+                    world.character.characterMovement = false;
+                    this.animateEndboss = false;
+                } else {
+                    this.playAnimationLoop(this.IMAGES_ATTACK); // wird immer ausgeführt!!
+                    // this.followCharacter();
+                }
+                this.animationIndex++
             }
-            
-            if (this.isDead() && !this.endbossDead) {
-                this.endbossDead = true;
-                this.deadAnimation(3);
-                this.gameOver();
-            } else {
-                this.playAnimationLoop(this.IMAGES_ATTACK);
-                // this.followCharacter();
-            }
-            i++
-            if (world.character.x > 1800 && !hadFirstContact) {
-                i = 0;
-                hadFirstContact = true;
+            if (world.character.x > 1900 && !this.animateEndboss) {
+                this.animationIndex = 0;
+                this.animateEndboss = true;
+                world.character.characterMovement = false;
                 this.fadeInImg('alphaEndbossHealthBar');
                 console.log('first contact');
             }
-        }, 200)
+        }, 120)
+    }
+
+
+    stopCharacterMovement() {
+        clearInterval(world.character.characterMovement);
     }
 }

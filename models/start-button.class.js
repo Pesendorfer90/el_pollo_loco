@@ -18,7 +18,7 @@ class StartButton extends DrawableObject {
     }
 
     handleCanvasClick(event) {
-        console.log('listener works')
+        // console.log('listener works')
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
@@ -35,7 +35,7 @@ class StartButton extends DrawableObject {
 
 
     handleCanvasHover(event) {
-        console.log('hover works')
+        // console.log('hover works')
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
@@ -65,5 +65,6 @@ class StartButton extends DrawableObject {
         });
         
         world.gameStarted = true;
+        world.character.characterMovement = true;
     }
 }
