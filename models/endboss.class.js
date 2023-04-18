@@ -86,12 +86,22 @@ class Endboss extends MovableObject {
                     world.character.characterMovement = false;
                     this.animateEndboss = false;
                 } else {
-                    this.playAnimationLoop(this.IMAGES_ATTACK); // wird immer ausgeführt!!
-                    // this.followCharacter();
+                    if (this.animationIndex > 43 && !this.isHurt()) {
+                        this.playAnimationLoop(this.IMAGES_ATTACK);
+                        if (this.checkDirection() == true) {
+                            this.moveLeft();
+                            console.log('move left');
+                            console.log(this.checkDirection());
+                        } else {
+                            this.moveRight();
+                            console.log('move right');
+                            console.log(this.checkDirection());
+                        }
+                    }
                 }
                 this.animationIndex++
             }
-            if (world.character.x > 1900 && !this.animateEndboss) {
+            if (world.character.x > 1900 && !this.animateEndboss && !this.endbossDead) {
                 this.animationIndex = 0;
                 this.animateEndboss = true;
                 world.character.characterMovement = false;
@@ -104,5 +114,13 @@ class Endboss extends MovableObject {
 
     stopCharacterMovement() {
         clearInterval(world.character.characterMovement);
+    }
+
+
+    checkDirection() {
+        world.level.endboss.forEach(enemy => {
+            // console.log(world.character.x < enemy.x, world.character.x, enemy.x);
+            return world.character.x < enemy.x;
+        });
     }
 }

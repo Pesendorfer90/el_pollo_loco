@@ -166,7 +166,7 @@ class Character extends MovableObject {
     lastTimeThrow() {
         let timepassed = new Date().getTime() - this.lastThrow; // Difference in ms
         timepassed = timepassed / 1000 // Difference in sec
-        return timepassed < 0.5;
+        return timepassed < 0.85;
     }
 
 
