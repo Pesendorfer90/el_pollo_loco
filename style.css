@@ -18,6 +18,17 @@ body {
     font-family: 'zabras', Arial, Helvetica, sans-serif;
 }
 
+.display-none {
+    display: none;
+}
+
+.loading-screen {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle, rgb(255, 153, 1) 0%, rgba(255, 156, 0, 1) 100%);
+}
+
 h1 {
     font-size: 64px;
     letter-spacing: 3px;

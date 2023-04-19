@@ -1,10 +1,5 @@
 class Character extends MovableObject {
 
-    height = 280;
-    width = 100;
-    y = 140;
-    speed = 5;
-
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -82,6 +77,9 @@ class Character extends MovableObject {
     intervalJump;
     jumpCounter;
     lastThrow;
+    intTime = 20;
+
+
 
 
     constructor() {
@@ -92,6 +90,10 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_IDLE_LONG);
+        this.height = 280;
+        this.width = 100;
+        this.y = 140;
+        this.speed = 5;
         this.animate();
         this.applyGravitiy();
     }
@@ -130,6 +132,7 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
+            this.intTime = 20;
             if (this.characterMovement) {
                 if (this.isDead() && !this.characterDead) {
                     this.characterDead = true;
@@ -137,19 +140,26 @@ class Character extends MovableObject {
                     this.deadAnimation(5);
                     this.youLost();
                 } else if (this.isHurt() && !this.characterDead) {
+                    this.intTime = 18;
                     this.playHurtSound();
                     this.playAnimationLoop(this.IMAGES_HURT);
                 } else if (this.isAboveGround() && this.characterDead == false && this.characterJumping == false) {
-                    this.jumpAnimation();
+                    this.currentImg = 0
+                    this.playAnimationLoop(this.IMAGES_JUMPING);
+                    // this.jumpAnimation();
                 } else {
 
                     if (this.world.keyboard.RIGHT && this.characterJumping == false ||
                         this.world.keyboard.LEFT && this.characterJumping == false) {
+                            this.intTime = 18;
                         this.playAnimationLoop(this.IMAGES_WALKING);
+                    } else {
+                        this.intTime = 120;
+                        this.playAnimationLoop(this.IMAGES_IDLE);
                     }
                 }
             }
-        }, 60)
+        }, 1000 / this.intTime)
 
     }
 

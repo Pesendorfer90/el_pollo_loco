@@ -91,10 +91,12 @@ class Endboss extends MovableObject {
                         if (this.checkDirection() == true) {
                             this.moveLeft();
                             console.log('move left');
+                            this.otherDirection = false;
                             console.log(this.checkDirection());
                         } else {
                             this.moveRight();
                             console.log('move right');
+                            this.otherDirection = true;
                             console.log(this.checkDirection());
                         }
                     }
@@ -118,9 +120,10 @@ class Endboss extends MovableObject {
 
 
     checkDirection() {
-        world.level.endboss.forEach(enemy => {
+        // world.level.endboss.forEach(enemy => {
+        let enemy = world.level.endboss[0]
             // console.log(world.character.x < enemy.x, world.character.x, enemy.x);
             return world.character.x < enemy.x;
-        });
+        // });
     }
 }
