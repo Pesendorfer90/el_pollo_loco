@@ -7,10 +7,6 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
-
-    console.log('my Character is', world.character);
-
 }
 
 
@@ -39,7 +35,7 @@ window.addEventListener('keydown', (event) => {
         keyboard.SPACE = true;
     }
 
-    
+
     if (event.keyCode == 16) {
         keyboard.THROW = true;
     }
@@ -78,19 +74,21 @@ window.addEventListener('keyup', (event) => {
 });
 
 
-let $ = (e) => document.querySelector(e);
-let dots = $(".dots");
+document.addEventListener("DOMContentLoaded", function() {
+    let $ = (e) => document.querySelector(e);
+    let dots = $(".dots");
+    animate(dots, 'dots--animate');
+  });
 
 
 function animate(element, className) {
-  element.classList.add(className);
-  setTimeout(() => {
-    element.classList.remove(className);
+    $ = (e) => document.querySelector(e);
+    dots = $(".dots");
+    element.classList.add(className);
     setTimeout(() => {
-      animate(element, className);
-    }, 500);
-  }, 2500);
+        element.classList.remove(className);
+        setTimeout(() => {
+            animate(element, className);
+        }, 500);
+    }, 2500);
 }
-
-
-animate(dots, 'dots--animate');
