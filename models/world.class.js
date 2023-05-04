@@ -146,13 +146,13 @@ class World {
                 this.ctx.globalAlpha = this.alphaLost;
                 this.addToMap(this.youLost);
                 this.ctx.globalAlpha = 1;
-            } if (this.level.endboss[0].endbossDead) {
-                this.ctx.globalAlpha = this.alphaGameOver;
-                this.addToMap(this.gameOver);
-                this.ctx.globalAlpha = 1;
             } if (!this.level.endboss[0].hadFirstContact) {
                 this.ctx.globalAlpha = this.alphaEndbossHealthBar;
                 this.addToMap(this.healthBarEndboss);
+                this.ctx.globalAlpha = 1;
+            } if (this.level.endboss[0].endbossDead) {
+                this.ctx.globalAlpha = this.alphaGameOver;
+                this.addToMap(this.gameOver);
                 this.ctx.globalAlpha = 1;
             }
 
@@ -163,7 +163,6 @@ class World {
         //----------- Space for fixed objects at Start --------------
         if (!this.gameStarted) {
             this.addToMap(this.startScreen);
-            this.addToMap(this.startButton);
         }
 
         this.ctx.translate(this.camera_x, 0);
@@ -175,6 +174,7 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
+        hideLoadingScreen();
     }
 
 

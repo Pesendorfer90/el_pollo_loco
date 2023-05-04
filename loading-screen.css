@@ -9,6 +9,7 @@
   padding: 2px;
   box-sizing: border-box;
   overflow: hidden;
+  z-index: 99;
 }
 
 .dots {
