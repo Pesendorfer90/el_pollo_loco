@@ -1,7 +1,6 @@
 class World {
 
     startScreen = new StartScreen();
-    startButton = new StartButton();
     character = new Character();
     gameOver = new GameOver();
     youLost = new YouLost();
@@ -18,7 +17,6 @@ class World {
     alphaLost = 0;
     alphaGameOver = 0;
     alphaEndbossHealthBar = 0;
-    gameStarted = false;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -70,7 +68,7 @@ class World {
             !enemy.isDead()) {
             enemy.speed = 0;
             enemy.energy = 0;
-            this.character.jump();
+            this.character.jump(10);
         }
     }
 
@@ -111,7 +109,6 @@ class World {
                     this.healthBarEndboss.setHealth(endboss.energy);
             }
             })
-            
         })
     }
 
@@ -121,7 +118,7 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
 
-        if (this.gameStarted) {
+        if (gameStarted) {
             this.addObjectsToMap(this.level.backgroundObjects);
 
             this.addToMap(this.character);
@@ -139,7 +136,6 @@ class World {
             this.addToMap(this.coinBar, 'text');
             this.addToMap(this.salsaBottleBar);
             this.addToMap(this.salsaBottleBar, 'text');
-            
 
             // ----------- Space for transparent IMG ------------
             if (this.character.characterDead) {
@@ -161,7 +157,7 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         //----------- Space for fixed objects at Start --------------
-        if (!this.gameStarted) {
+        if (!gameStarted) {
             this.addToMap(this.startScreen);
         }
 
@@ -192,7 +188,7 @@ class World {
             mo.write(this.ctx, i)
         } else {
             mo.draw(this.ctx);
-            // mo.drawFrame(this.ctx);
+            mo.drawFrame(this.ctx);
         } if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

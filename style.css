@@ -30,7 +30,9 @@ body {
     width: 720px;
     height: 480px;
     position: absolute;
-    /* display: flex; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 canvas {
@@ -57,7 +59,19 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
-
+.button-container2 {
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
 
 .info-button {
     display: flex;
@@ -108,6 +122,10 @@ canvas {
 }
 
 .start-button {
+    width: 18%;
+}
+
+.animated-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,14 +133,11 @@ canvas {
     letter-spacing: 2px;
     border-radius: 10px;
     border: 2px solid black;
-    width: 18%;
-    /* height: 100%; */
     background: rgb(255, 222, 1);
     background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
     animation: pulse 1500ms infinite;
     -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.54);
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.34);
-    user-select: none;
 }
 
 .info-container {
@@ -166,12 +181,17 @@ canvas {
     border: 4px solid black;
     border-radius: 6px;
     cursor: pointer;
-    user-select: none;
 }
 
 .close-Info-button:hover,
 .close-Info-button:active {
     transform: scale(1.05);
+}
+
+.reload-button {
+    height: 12%;
+    width: 26%;
+    margin-bottom: 3%;
 }
 
 .mobile-control {
@@ -196,7 +216,6 @@ canvas {
     justify-content: center;
     align-items: center;
     margin: 6px;
-    user-select: none;
 }
 
 .button-border:active {
@@ -207,13 +226,11 @@ canvas {
     height: 36px;
     max-width: 100%;
     opacity: 0.35;
-    user-select: none;
 }
 
 .throw-bottle {
     height: 70px;
     opacity: 0.4;
-    user-select: none;
 }
 
 .mobile-control-button-left {
@@ -293,7 +310,23 @@ canvas {
     .info-container {
         width: 100%;
         height: 100%;
-        font-size: 36px;
+        font-size: 5.0vw;
+    }
+
+    .info-container h1 {
+        margin-bottom: 4.19vw;
+        margin-top: 1.397vw;
+    }
+
+    .info-container span {
+        font-size: 6.99vw;
+        margin: 3.4vw;
+    }
+
+    .close-Info-button {
+        width: 14vw;
+        font-size: 6.65vw;
+        border: 0.6vw solid black;
     }
 
     .mobile-control {
@@ -357,7 +390,23 @@ canvas {
     .info-container {
         width: 100%;
         height: 100%;
-        font-size: 36px;
+        font-size: 7.5vh;
+    }
+
+    .info-container h1 {
+        margin-bottom: 6.25vh;
+        margin-top: 2.084vh
+    }
+
+    .info-container span {
+        font-size: 10.4vh;
+        margin: 5vh;
+    }
+
+    .close-Info-button {
+        width: 20.835vh;
+        font-size: 10vh;
+        border: 1vh solid black;
     }
 
     .mobile-control {

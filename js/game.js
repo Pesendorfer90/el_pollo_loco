@@ -2,8 +2,11 @@ let canvas;
 let world
 let keyboard = new Keyboard();
 let doomEventListener;
-let soundSettings = false;
+let gameStarted = false;
+let playSound = false;
 let checkFullScreen = false;
+let intro_music = new Audio('audio/Intro-guitar-quieter.mp3')
+let game_music = new Audio('audio/game-music-quieter.mp3')
 
 
 
@@ -138,8 +141,8 @@ function startScreenClicked() {
     world.level.enemies.forEach(chicken => {
         chicken.animate();
     });
-
-    world.gameStarted = true;
+    gameStarted = true;
+    chooseMusic();
     world.character.characterMovement = true;
     document.getElementById('startButton').classList.add('display-none');
     document.getElementById('emptySpaceLeft').classList.add('empty-space-toggle');
@@ -147,14 +150,40 @@ function startScreenClicked() {
 }
 
 
-function soundSwitch() {
+function switchSound() {
     soundImg = document.getElementById('muteOnOff');
-    if (soundSettings) {
+    if (playSound) {
         soundImg.src = 'img/index-img/mute.png';
-        soundSettings = false;
+        playSound = false;
+        stopSound(intro_music);
+        stopSound(game_music);
     } else {
         soundImg.src = 'img/index-img/speaker.png';
-        soundSettings = true;
+        playSound = true;
+        chooseMusic();
+    }
+}
+
+
+function startSound(sound) {
+    if (playSound) {
+        sound.play();
+    }
+}
+
+
+function stopSound(sound) {
+    sound.pause();
+}
+
+
+function chooseMusic() {
+    if (gameStarted) {
+        startSound(game_music);
+        stopSound(intro_music);
+    } else {
+        startSound(intro_music);
+        stopSound(game_music);
     }
 }
 
@@ -170,7 +199,7 @@ function closeInfo() {
 
 
 function fullScreen() {
-    let fullScreenContent = document.getElementById('mainContent');
+    let fullScreenContent = document.getElementById('fullScreenContainer');
     if (checkFullScreen) {
         closeFullscreen(fullScreenContent)
         checkFullScreen = false;
@@ -183,21 +212,21 @@ function fullScreen() {
 
 function openFullscreen(elem) {
     if (elem.requestFullscreen) {
-      elem.requestFullscreen();
+        elem.requestFullscreen();
     } else if (elem.webkitRequestFullscreen) { /* Safari */
-      elem.webkitRequestFullscreen();
+        elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) { /* IE11 */
-      elem.msRequestFullscreen();
+        elem.msRequestFullscreen();
     }
-  }
-  
+}
 
-  function closeFullscreen() {
+
+function closeFullscreen() {
     if (document.exitFullscreen) {
-      document.exitFullscreen();
+        document.exitFullscreen();
     } else if (document.webkitExitFullscreen) { /* Safari */
-      document.webkitExitFullscreen();
+        document.webkitExitFullscreen();
     } else if (document.msExitFullscreen) { /* IE11 */
-      document.msExitFullscreen();
+        document.msExitFullscreen();
     }
-  }
+}

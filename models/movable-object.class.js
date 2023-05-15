@@ -4,20 +4,22 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 0.8;
-    energy = 10;
+    energy = 100;
     lastHit = 0;
     lastThrow = 0;
+    applyGravitiyInterval;
+    gravitiyDeadCharacterInterval;
 
 
     applyGravitiy() {
-        setInterval(() => {
+        this.applyGravitiyInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 60)
 
-        setInterval(() => {
+        this.gravitiyDeadCharacterInterval = setInterval(() => {
             if (!this.isAboveGround() && !world.character.characterDead) {
                 this.speedY = 0;
                 this.y = 140;
@@ -57,11 +59,8 @@ class MovableObject extends DrawableObject {
     }
 
 
-    jump() {
-        clearInterval(this.intervalJump);
-        this.jumpCounter = 0;
-        this.characterJumping = false;
-        this.speedY = 12;
+    jump(speedY) {
+        this.speedY = speedY;
     }
 
 
@@ -76,16 +75,16 @@ class MovableObject extends DrawableObject {
 
     isCollidiong(mo) {
         return this.x + this.width - 30 > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x - 30 < mo.x &&
+            this.y + this.height -14 > mo.y &&
+            this.x -5 < mo.x &&
             this.y < mo.y + mo.height
     }
 
 
     jumpOnEnemy(mo) {
         return this.x + this.width - 30 > mo.x &&
-            this.x - 30 < mo.x &&
-            this.y + this.height > mo.y
+            this.x - 5 < mo.x &&
+            this.y + this.height -14 > mo.y
     }
 
     hit(i) {
@@ -112,30 +111,21 @@ class MovableObject extends DrawableObject {
     deadAnimation(i) {
         let counter = 0;
         const intervalId = setInterval(() => {
-            if (counter >= i) {
+            if (counter > i) {
                 clearInterval(intervalId);
             } else {
                 this.playAnimationLoop(this.IMAGES_DEAD);
                 counter++;
+                console.log(counter);
             }
         }, 150);
 
-        if (world.character.characterDead) {
+        if (world.character.characterDead || world.level.endboss[0].endbossDead) {
             setTimeout(() => {
                 setInterval(() => {
                     this.fallDown();
                 }, 120)
             }, 230)
         }
-    }
-
-
-    youLost() {
-        this.fadeInImg('alphaLost');
-    }
-
-
-    gameOver() {
-        this.fadeInImg('alphaGameOver');
     }
 }

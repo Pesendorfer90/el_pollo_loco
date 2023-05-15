@@ -43,10 +43,10 @@ class DrawableObject {
     }
 
 
-    remove(object, i) {
-        console.log(object, i)
-        object.splice(i, 1);
-    }
+    // remove(object, i) {
+    //     console.log(object, i)
+    //     object.splice(i, 1);
+    // }
 
 
     drawFrame(ctx) {
@@ -67,9 +67,19 @@ class DrawableObject {
             }, 20)
         }, 1000)
     }
+    
+
+    youLost() {
+        this.fadeInImg('alphaLost');
+    }
+
+
+    gameOver() {
+        this.fadeInImg('alphaGameOver');
+    }
 
 
     setTransparency(alpha) {
-        world[alpha] += 0.01;;
+        world[alpha] += 0.015;;
     }
 }

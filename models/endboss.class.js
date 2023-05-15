@@ -64,8 +64,6 @@ class Endboss extends MovableObject {
 
 
     animate() {
-        this.animationIndex = 0;
-
         setInterval(() => {
             if (this.animateEndboss) {
                 if (this.animationIndex < 35) {
@@ -90,14 +88,10 @@ class Endboss extends MovableObject {
                         this.playAnimationLoop(this.IMAGES_ATTACK);
                         if (this.checkDirection() == true) {
                             this.moveLeft();
-                            console.log('move left');
                             this.otherDirection = false;
-                            console.log(this.checkDirection());
                         } else {
                             this.moveRight();
-                            console.log('move right');
                             this.otherDirection = true;
-                            console.log(this.checkDirection());
                         }
                     }
                 }
@@ -108,22 +102,14 @@ class Endboss extends MovableObject {
                 this.animateEndboss = true;
                 world.character.characterMovement = false;
                 this.fadeInImg('alphaEndbossHealthBar');
-                console.log('first contact');
+                world.character.setStandardImg();
             }
         }, 120)
     }
-
-
-    stopCharacterMovement() {
-        clearInterval(world.character.characterMovement);
-    }
-
+    
 
     checkDirection() {
-        // world.level.endboss.forEach(enemy => {
         let enemy = world.level.endboss[0]
-            // console.log(world.character.x < enemy.x, world.character.x, enemy.x);
-            return world.character.x < enemy.x;
-        // });
+            return world.character.x + (world.character.width / 2) < enemy.x + (enemy.width / 2);
     }
 }

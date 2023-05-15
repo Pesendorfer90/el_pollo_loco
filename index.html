@@ -12,6 +12,7 @@
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
+    <script src="models/chicken-baby.class.js"></script>
     <script src="models/cloud.class.js"></script>
     <script src="models/health-bar-character.class.js"></script>
     <script src="models/health-bar-endboss.class.js"></script>
@@ -22,7 +23,6 @@
     <script src="models/salsa-bottle.class.js"></script>
     <script src="models/salsa-bottle-bar.class.js"></script>
     <script src="models/start-screen.class.js"></script>
-    <script src="models/start-button.class.js"></script>
     <script src="models/game-over.class.js"></script>
     <script src="models/you-lost.class.js"></script>
     <script src="models/keyboard.class.js"></script>
@@ -51,66 +51,69 @@
     </div>
 
     <div class="bg-image"></div>
-
-    <div class="main-content" id="mainContent">
-        <canvas id="canvas" width="720px" height="480px"></canvas>
-        <div class="button-container">
-            <div class="info-button z-index" id="infoButton">
-                <div class="empty-space" id="emptySpaceLeft"></div>
-                <div class="button" onclick="soundSwitch()"><img id="muteOnOff" class="button-img"
-                        src="img/index-img/mute.png"></div>
-                <div class="button" id="infoButton" onclick="showInfo()"><img class="button-img"
-                        src="img/index-img/info.png"></div>
-                <div class="button" id="fullScreenButton" onclick="fullScreen()"><img class="button-fullscreen-img"
-                        src="img/index-img/full-screen.png"></div>
-                <div class="empty-space" id="emptySpaceRight"></div>
+    <div id="fullScreenContainer">
+        <div class="main-content" id="mainContent">
+            <canvas id="canvas" width="720px" height="480px"></canvas>
+            <div class="button-container">
+                <div class="info-button z-index" id="infoButton">
+                    <div class="empty-space" id="emptySpaceLeft"></div>
+                    <div class="button" onclick="switchSound()"><img id="muteOnOff" class="button-img"
+                            src="img/index-img/mute.png"></div>
+                    <div class="button" id="infoButton" onclick="showInfo()"><img class="button-img"
+                            src="img/index-img/info.png"></div>
+                    <div class="button" id="fullScreenButton" onclick="fullScreen()"><img class="button-fullscreen-img"
+                            src="img/index-img/full-screen.png"></div>
+                    <div class="empty-space" id="emptySpaceRight"></div>
+                </div>
+                <div class="start-button-container z-index">
+                    <div class="animated-button start-button" id="startButton" onclick="startScreenClicked()">Start</div>
+                </div>
             </div>
-            <div class="start-button-container z-index">
-                <div class="start-button" id="startButton" onclick="startScreenClicked()">Start</div>
+            <div class="info-container display-none" id="infoContainer">
+                <h1>Controlls</h1>
+                <table>
+                    <tr>
+                        <th>Move left :</th>
+                        <th>A</th>
+                    </tr>
+                    <tr>
+                        <th>Move right :</th>
+                        <th>D</th>
+                    </tr>
+                    <tr>
+                        <th>Jump :</th>
+                        <th>Space</th>
+                    </tr>
+                    <tr>
+                        <th>Throw Bottle :</th>
+                        <th>Shift</th>
+                    </tr>
+                </table>
+                <span>Press ESC to exit fullscreen</span>
+                <div class="close-Info-button" onclick="closeInfo()">Close</div>
+            </div>
+            <div class="button-container2">
+                <div class="animated-button reload-button" id="reloadButton" onclick="reloadGame()">Try again</div>
+            </div>
+            <div class="mobile-control" id="mobileControl">
+                <div class="display-flex">
+                    <div class="button-border" id="btnLeft">
+                        <img src="img/index-img/arrow.png" class="mobile-control-button-left mobile-control-img">
+                    </div>
+                    <div class="button-border" id="btnRight">
+                        <img src="img/index-img/arrow.png" class="mobile-control-img">
+                    </div>
+                </div>
+                <div class="display-flex">
+                    <div class="button-border" id="btnThrow">
+                        <img src="img/6_salsa_bottle/salsa_bottle.png" class="throw-bottle">
+                    </div>
+                    <div class="button-border" id="btnJump">
+                        <img src="img/index-img/arrow.png" class="mobile-control-button-jump mobile-control-img">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="info-container display-none" id="infoContainer">
-            <h1>Controlls</h1>
-            <table>
-                <tr>
-                    <th>Move left :</th>
-                    <th>A</th>
-                </tr>
-                <tr>
-                    <th>Move right :</th>
-                    <th>D</th>
-                </tr>
-                <tr>
-                    <th>Jump :</th>
-                    <th>Space</th>
-                </tr>
-                <tr>
-                    <th>Throw Bottle :</th>
-                    <th>Shift</th>
-                </tr>
-            </table>
-            <span>Press ESC to exit fullscreen</span>
-            <div class="close-Info-button" onclick="closeInfo()">Close</div>
-        </div>
-        <div class="mobile-control" id="mobileControl">
-            <div class="display-flex">
-                <div class="button-border" id="btnLeft">
-                    <img src="img/index-img/arrow.png" class="mobile-control-button-left mobile-control-img">
-                </div>
-                <div class="button-border" id="btnRight">
-                    <img src="img/index-img/arrow.png" class="mobile-control-img">
-                </div>
-            </div>
-            <div class="display-flex">
-                <div class="button-border" id="btnThrow">
-                    <img src="img/6_salsa_bottle/salsa_bottle.png" class="throw-bottle">
-                </div>
-                <div class="button-border" id="btnJump">
-                    <img src="img/index-img/arrow.png" class="mobile-control-button-jump mobile-control-img">
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </body>
