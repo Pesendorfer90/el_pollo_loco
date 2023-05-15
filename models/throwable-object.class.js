@@ -16,6 +16,8 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+    bottleSmash_sound = new Audio('audio/bottle-smash.mp3');
+
     bottleSplashed = false;
     throwInterval;
 
@@ -75,8 +77,10 @@ class ThrowableObject extends MovableObject {
 
 
     bottleSplash() {
+        startSound(this.bottleSmash_sound);
         setInterval(() => {
             this.playAnimationLoop(this.IMAGES_BOTTLES_SPLASH);
+            
         }, 142)
     }
 }

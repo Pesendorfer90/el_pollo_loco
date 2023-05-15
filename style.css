@@ -61,11 +61,10 @@ canvas {
 
 .button-container2 {
     z-index: 2;
-    width: 100%;
-    height: 100%;
-    display: flex;
+    width: 720px;
+    height: 240px;
     position: absolute;
-    top: 50%;
+    top: 75%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -189,9 +188,9 @@ canvas {
 }
 
 .reload-button {
-    height: 12%;
-    width: 26%;
-    margin-bottom: 3%;
+    height: 50px;
+    width: 175px;
+    margin-bottom: 8px;
 }
 
 .mobile-control {

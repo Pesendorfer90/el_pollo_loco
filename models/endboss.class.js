@@ -41,6 +41,8 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    bigChickenHurt_sound = new Audio('audio/big-chicken-hurt.mp3');
+
     endbossDead = false;
     animateEndboss = false;
     animationIndex
@@ -75,7 +77,7 @@ class Endboss extends MovableObject {
                     console.log(this.animationIndex, 'alert');
                     world.character.characterMovement = true;
                 } if (this.isHurt() && !this.isDead()) {
-                    console.log('endboss hurt')
+                    startSound(this.bigChickenHurt_sound);
                     this.playAnimationLoop(this.IMAGES_HURT);
                 } if (this.isDead() && !this.endbossDead) {
                     this.endbossDead = true;

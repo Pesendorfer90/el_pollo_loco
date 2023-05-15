@@ -230,3 +230,8 @@ function closeFullscreen() {
         document.msExitFullscreen();
     }
 }
+
+
+function reloadGame() {
+    
+}
