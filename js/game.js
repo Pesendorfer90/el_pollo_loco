@@ -5,6 +5,7 @@ let doomEventListener;
 let gameStarted = false;
 let playSound = false;
 let checkFullScreen = false;
+let intervalIds = [];
 let intro_music = new Audio('audio/Intro-guitar-quieter.mp3')
 let game_music = new Audio('audio/game-music-quieter.mp3')
 
@@ -233,5 +234,16 @@ function closeFullscreen() {
 
 
 function reloadGame() {
-    
+
+}
+
+
+function setStoppableInterval(fn, time) {
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
+}
+
+
+function stopGame() {
+    intervalIds.forEach(clearIntarval);
 }

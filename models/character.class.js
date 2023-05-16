@@ -59,13 +59,9 @@ class Character extends MovableObject {
     characterDead = false;
     characterJumping = false;
     characterMovement = false;
-    movementInterval;
-    animateInterval;
-    jumpCounter;
     lastThrow;
-    idleAnimationTime = '';
-    longIdle = false;
-    longIdleIntveral;
+    idle = false;
+    idleIntveral;
 
 
     constructor() {
@@ -80,69 +76,111 @@ class Character extends MovableObject {
         this.y = 140;
         this.speed = 5;
         this.animate();
+        this.movement();
         this.applyGravitiy();
     }
 
 
-    animate() {
-        this.animateInterval = setInterval(() => {
+    movement() {
+        setInterval(() => {
             if (this.characterMovement) {
                 stopSound(this.walking_sound);
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.moveRight();
-                    this.otherDirection = false;
-                    startSound(this.walking_sound);
-                }
-
-                if (this.world.keyboard.LEFT && this.x > 0) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                    startSound(this.walking_sound);
-                }
-
-                if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                    this.jump(16);
-                    startSound(this.jumping_sound);
-                }
-
-                if (this.world.keyboard.THROW) {
-                    if (this.lastTimeThrow() == false) {
-                        this.throwBottle();
-                    }
-                }
+                this.characterMoveRight();
+                this.characterMoveLeft();
+                this.characterJump();
+                this.characterThrow();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
+    }
 
 
-        this.movementInterval = setInterval(() => {
+    characterMoveRight() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+            startSound(this.walking_sound);
+        }
+    }
+
+
+    characterMoveLeft() {
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.otherDirection = true;
+            startSound(this.walking_sound);
+        }
+    }
+
+
+    characterJump() {
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump(16);
+            startSound(this.jumping_sound);
+        }
+    }
+
+
+    characterThrow() {
+        if (this.world.keyboard.THROW) {
+            if (this.lastTimeThrow() == false) {
+                this.throwBottle();
+            }
+        }
+    }
+
+
+    animate() {
+        setInterval(() => {
             if (this.characterMovement) {
                 if (this.isDead() && !this.characterDead) {
-                    this.characterDead = true;
-                    this.characterMovement = false;
-                    this.deadAnimation(5);
-                    this.youLost();
-                } else if (this.isHurt() && !this.characterDead) {
-                    this.playHurtSound();
-                    this.playAnimationLoop(this.IMAGES_HURT);
-                } else if (this.isAboveGround() && this.characterDead == false) {
-                    this.jumpAnimation();
-                    this.resetIdleTime();
+                    this.characterAnimationDead();
+                } else if (this.isHurt()) {
+                    this.characterAnimationHurt();
+                } else if (this.isAboveGround()) {
+                    this.characterAnimationJump();
                 } else {
-
-                    if (this.world.keyboard.RIGHT && this.characterJumping == false ||
-                        this.world.keyboard.LEFT && this.characterJumping == false) {
-                        this.playAnimationLoop(this.IMAGES_WALKING);
-                        this.resetIdleTime();
-                    } else if (!this.characterJumping) {
-                        if (this.idleAnimationTime == '') {
-                            this.idleAnimationTime = new Date().getTime();
-                        }
-                        this.idleAnimation()
-                    }
+                    this.walkOrIdle();
                 }
             }
         }, 1000 / 20)
+    }
+
+
+    characterAnimationDead() {
+        this.characterDead = true;
+        this.characterMovement = false;
+        this.deadAnimation(5);
+        this.youLost();
+        this.resetIdle();
+    }
+
+
+    characterAnimationHurt() {
+        this.playHurtSound();
+        this.playAnimationLoop(this.IMAGES_HURT);
+        this.resetIdle();
+    }
+
+
+    characterAnimationJump() {
+        this.jumpAnimation();
+        this.resetIdle();
+    }
+
+    walkOrIdle() {
+        if (this.world.keyboard.RIGHT && this.characterJumping == false ||
+            this.world.keyboard.LEFT && this.characterJumping == false) {
+            this.characterAnimationWalk();
+        } else if (!this.idle) {
+            this.idleAnimation();
+        }
+    }
+
+
+    characterAnimationWalk() {
+        this.playAnimationLoop(this.IMAGES_WALKING);
+        this.resetIdle();
     }
 
 
@@ -190,39 +228,22 @@ class Character extends MovableObject {
 
 
     idleAnimation() {
-        const imageTimings = [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2];
-        const lastImageIndex = imageTimings.findIndex((timing) => this.lastImgChange(timing) === true);
-        if (lastImageIndex < 0) {
-            return;
-        }
-        if (lastImageIndex < 9) {
-            this.loadImage(this.IMAGES_IDLE[lastImageIndex]);
-        } else if (!this.longIdle) {
-            this.longIdleAnimation();
-            this.longIdle = true;
-        }
+        this.idle = true;
+        let i = 0;
+        this.idleIntveral = setInterval(() => {
+            i++;
+            if (i < 9) {
+                this.playAnimationLoop(this.IMAGES_IDLE);
+            } else {
+                this.playAnimationLoop(this.IMAGES_IDLE_LONG);
+            }
+        }, 250)
     }
 
 
-    lastImgChange(miliseconds) {
-        let timepassed = new Date().getTime() - this.idleAnimationTime;
-        timepassed = timepassed / 1000;
-        return timepassed < miliseconds;
-    }
-
-
-    longIdleAnimation() {
-        let longIdleIntveral = setInterval(() => {
-            this.playAnimationLoop(this.IMAGES_IDLE_LONG);
-        }, 180);
-        this.longIdleIntveral = longIdleIntveral;
-    }
-
-
-    resetIdleTime() {
-        this.idleAnimationTime = '';
-        clearInterval(this.longIdleIntveral);
-        this.longIdle = false;
+    resetIdle() {
+        clearInterval(this.idleIntveral);
+        this.idle = false;
     }
 
 

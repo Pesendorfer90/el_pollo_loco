@@ -107,7 +107,7 @@ class World {
                 if (endboss.isCollidiong(salsaBottle) && endboss.isHurt() == false) {
                     endboss.hit('20');
                     this.healthBarEndboss.setHealth(endboss.energy);
-            }
+                }
             })
         })
     }
@@ -207,7 +207,4 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
-
-
 }

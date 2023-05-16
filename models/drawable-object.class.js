@@ -71,11 +71,19 @@ class DrawableObject {
 
     youLost() {
         this.fadeInImg('alphaLost');
+        this.showTryAgain();
     }
-
 
     gameOver() {
         this.fadeInImg('alphaGameOver');
+        this.showTryAgain();
+    }
+
+
+    showTryAgain() {
+        setTimeout(() => {
+            document.getElementById('reload').classList.remove('display-none');
+        }, 3500)
     }
 
 
