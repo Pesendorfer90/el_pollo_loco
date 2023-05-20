@@ -17,15 +17,13 @@ class Chicken extends MovableObject {
         this.height = 50;
         this.width = 50;
         this.x = 350 + Math.random() * 1750;
-        this.speed = 0.12 + Math.random() * 1.65;
+        this.speed = 0.2 + Math.random() * 1.65;
         this.energy = 100;
+        this.hitStrength = 10;
     }
 
 
     animate() {
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60)
         setInterval(() => {
             if (this.isDead()) {
                 if (!this.soundPlayed) {
@@ -37,6 +35,15 @@ class Chicken extends MovableObject {
                 this.playAnimationLoop(this.IMAGES_WALKING);
             }
         }, 80)
+    }
+
+
+    startMovement() {
+        setInterval(() => {
+            if (!this.isDead()) {
+                this.moveLeft();
+            }
+        }, 1000 / 60)
     }
 }
 

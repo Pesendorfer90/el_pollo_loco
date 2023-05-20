@@ -43,12 +43,6 @@ class DrawableObject {
     }
 
 
-    // remove(object, i) {
-    //     console.log(object, i)
-    //     object.splice(i, 1);
-    // }
-
-
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin) {
             ctx.beginPath();

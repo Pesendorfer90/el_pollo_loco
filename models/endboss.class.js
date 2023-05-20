@@ -45,7 +45,7 @@ class Endboss extends MovableObject {
 
     endbossDead = false;
     animateEndboss = false;
-    animationIndex
+    animationIndex;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -60,6 +60,8 @@ class Endboss extends MovableObject {
         this.x = 2500;
         this.speed = 4.5;
         this.energy = 100;
+        this.hurtWaitingTime = 0.85;
+        this.hitStrength = 25;
         this.animate();
     }
 
@@ -68,50 +70,84 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.animateEndboss) {
-                if (this.animationIndex < 35) {
-                    this.playAnimationLoop(this.IMAGES_WALKING);
-                    this.moveLeft();
-                    console.log(this.animationIndex, 'walk')
-                } if (this.animationIndex < 43 && this.animationIndex > 35) {
-                    this.playAnimationLoop(this.IMAGES_ALERT);
-                    console.log(this.animationIndex, 'alert');
-                    world.character.characterMovement = true;
-                } if (this.isHurt() && !this.isDead()) {
-                    startSound(this.bigChickenHurt_sound);
-                    this.playAnimationLoop(this.IMAGES_HURT);
-                } if (this.isDead() && !this.endbossDead) {
-                    this.endbossDead = true;
-                    this.deadAnimation(2);
-                    this.gameOver();
-                    world.character.characterMovement = false;
-                    this.animateEndboss = false;
-                } else {
-                    if (this.animationIndex > 43 && !this.isHurt()) {
-                        this.playAnimationLoop(this.IMAGES_ATTACK);
-                        if (this.checkDirection() == true) {
-                            this.moveLeft();
-                            this.otherDirection = false;
-                        } else {
-                            this.moveRight();
-                            this.otherDirection = true;
-                        }
-                    }
-                }
+                this.introAnimation();
+                this.hurtAnimation();
+                this.isDeadAnimation();
+                this.attackAnimation();
                 this.animationIndex++
             }
             if (world.character.x > 1900 && !this.animateEndboss && !this.endbossDead) {
-                this.animationIndex = 0;
-                this.animateEndboss = true;
-                world.character.characterMovement = false;
-                this.fadeInImg('alphaEndbossHealthBar');
-                world.character.setStandardImg();
+                this.startEndbossIntro()
             }
         }, 120)
     }
-    
+
+
+    introAnimation() {
+        if (this.animationIndex < 35) {
+            this.walkIn();
+        }
+        if (this.animationIndex < 43 && this.animationIndex > 35) {
+            this.alertIntro();
+        }
+    }
+
+
+    walkIn() {
+        this.playAnimationLoop(this.IMAGES_WALKING);
+        this.moveLeft();
+    }
+
+
+    alertIntro() {
+        this.playAnimationLoop(this.IMAGES_ALERT);
+        world.character.characterMovement = true;
+    }
+
+
+    hurtAnimation() {
+        if (this.lastTime(this.lastHit, this.hurtWaitingTime) && !this.isDead()) {
+            startSound(this.bigChickenHurt_sound);
+            this.playAnimationLoop(this.IMAGES_HURT);
+        }
+    }
+
+
+    isDeadAnimation() {
+        if (this.isDead() && !this.endbossDead) {
+            this.endbossDead = true;
+            this.deadAnimation(2);
+            this.gameOver();
+            world.character.characterMovement = false;
+            this.animateEndboss = false;
+        }
+    }
+
+
+    attackAnimation() {
+        if (this.animationIndex > 43 && !this.lastTime(this.lastHit, this.hurtWaitingTime)) {
+            this.playAnimationLoop(this.IMAGES_ATTACK);
+            if (this.checkDirection() == true) {
+                this.moveLeft();
+                this.otherDirection = false;
+            } else {
+                this.moveRight();
+                this.otherDirection = true;
+            }
+        }
+    }
+
+
+    startEndbossIntro() {
+        this.animationIndex = 0;
+        this.animateEndboss = true;
+        world.character.characterMovement = false;
+        this.fadeInImg('alphaEndbossHealthBar');
+        world.character.setStandardImg();
+    }
+
 
     checkDirection() {
-        let enemy = world.level.endboss[0]
-            return world.character.x + (world.character.width / 2) < enemy.x + (enemy.width / 2);
+        return world.character.x + (world.character.width / 2) < this.x + (this.width / 2);
     }
 }

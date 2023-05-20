@@ -1,4 +1,5 @@
 class Level {
+    allEnemies = [];
     enemies;
     endboss;
     clouds;
@@ -14,5 +15,17 @@ class Level {
         this.backgroundObjects = backgroundObjects;
         this.coin = coin;
         this.salsaBottle = salsaBottle;
+        this.allEnemiesArraay();
+    }
+    
+    
+    allEnemiesArraay() {
+        this.enemies.forEach(enemy => {
+            this.allEnemies.push(enemy)
+        });
+        this.endboss.forEach(endboss => {
+            this.allEnemies.push(endboss)
+        });
+
     }
 }

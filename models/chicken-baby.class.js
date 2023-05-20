@@ -8,6 +8,7 @@ class ChickenBaby extends MovableObject {
 
     chickenDead_sound = new Audio('audio/baby-chicken.mp3');
     soundPlayed = false;
+    lastJump;
 
 
     constructor() {
@@ -18,13 +19,14 @@ class ChickenBaby extends MovableObject {
         this.width = 40;
         this.x = 350 + Math.random() * 1750;
         this.speed = 0.12 + Math.random() * 1.65;
+        this.jumpY = 12;
         this.energy = 100;
+        this.randomJump = 0.5 + Math.random() * 4;
+        this.applyGravitiy();
+        this.hitStrength = 5;
     }
 
     animate() {
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60)
         setInterval(() => {
             if (this.isDead()) {
                 if (!this.soundPlayed) {
@@ -37,6 +39,23 @@ class ChickenBaby extends MovableObject {
             }
         }, 80)
     }
-    // mit math.random noch springen hinzufügen
+
+
+    startMovement() {
+        setInterval(() => {
+            if (!this.isDead()) {
+                this.moveLeft();
+                if (!this.isAboveGround() && this.lastTime(this.lastJump, this.randomJump) == false) {
+                    this.jumpRandom()
+                }
+            }
+        }, 1000 / 60)
+    }
+
+
+    jumpRandom() {
+        this.jump(this.jumpY)
+        this.lastJump = new Date().getTime()
+    }
 }
 

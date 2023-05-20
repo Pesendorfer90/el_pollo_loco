@@ -43,20 +43,20 @@ class World {
 
 
     enemyCollision() {
-        this.level.enemies.forEach((enemy) => {
-            this.enemyHurtCharacter(enemy);
+        this.level.allEnemies.forEach((enemy) => {
+            this.enemyHurtCharacter(enemy, enemy.hitStrength);
             this.characterHurtEnemy(enemy);
-            this.bottleHitBoss(enemy);
+            this.bottleHitEnemy(enemy)
         })
     }
 
 
-    enemyHurtCharacter(enemy) {
+    enemyHurtCharacter(enemy, hitStrength) {
         if (this.character.isCollidiong(enemy) &&
-            this.character.isHurt() == false &&
+            this.character.lastTime(this.character.lastHit, this.character.throwWaitingTime) == false &&
             !enemy.isDead() &&
             this.character.isAboveGround() == false) {
-            this.enemyCollides(enemy);
+            this.enemyCollides(hitStrength);
         }
     }
 
@@ -66,7 +66,6 @@ class World {
             this.character.isAboveGround() == true &&
             this.character.isPositiv() &&
             !enemy.isDead()) {
-            enemy.speed = 0;
             enemy.energy = 0;
             this.character.jump(10);
         }
@@ -93,22 +92,19 @@ class World {
     }
 
 
-    enemyCollides() {
-        if (this.character.isHurt() == false) {
-            this.character.hit('5');
+    enemyCollides(hitStrength) {
+            this.character.hit(hitStrength);
             this.statusBar.setHealth(this.character.energy);
-        }
     }
 
 
-    bottleHitBoss() {
-        this.throwableObject.forEach((salsaBottle, i) => {
-            this.level.endboss.forEach((endboss) => {
-                if (endboss.isCollidiong(salsaBottle) && endboss.isHurt() == false) {
-                    endboss.hit('20');
-                    this.healthBarEndboss.setHealth(endboss.energy);
+    bottleHitEnemy(enemy) {
+        this.throwableObject.forEach((salsaBottle) => {
+                if (enemy.isCollidiong(salsaBottle) &&
+                enemy.lastTime(enemy.lastHit, enemy.hurtWaitingTime) == false) {
+                    enemy.hit('20');
+                    this.healthBarEndboss.setHealth(enemy.energy);
                 }
-            })
         })
     }
 

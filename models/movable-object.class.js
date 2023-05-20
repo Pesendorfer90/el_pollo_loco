@@ -5,21 +5,25 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 0.8;
     energy = 100;
-    lastHit = 0;
     lastThrow = 0;
-    applyGravitiyInterval;
+    lastHit = 0;
     gravitiyDeadCharacterInterval;
+    hurtWaitingTime;
+    hitStrength;
 
 
     applyGravitiy() {
-        this.applyGravitiyInterval = setInterval(() => {
+        setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 60)
+    }
 
-        this.gravitiyDeadCharacterInterval = setInterval(() => {
+
+    stayOnGround() {
+        setInterval(() => {
             if (!this.isAboveGround() && !world.character.characterDead) {
                 this.speedY = 0;
                 this.y = 140;
@@ -30,6 +34,8 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
+        } if (this instanceof ChickenBaby) {
+            return this.y < 370;
         } else {
             return this.y < 140;
         }
@@ -87,9 +93,9 @@ class MovableObject extends DrawableObject {
             this.y + this.height -14 > mo.y
     }
 
+
     hit(i) {
         this.energy -= i;
-        console.log(this.energy)
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -97,11 +103,13 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
+
+    lastTime(lastAction, waitingPeriod) {
+        let timepassed = new Date().getTime() - lastAction; // Difference in ms
         timepassed = timepassed / 1000 // Difference in sec
-        return timepassed < 0.85;
+        return timepassed < waitingPeriod;
     }
+
 
     isDead() {
         return this.energy == 0;

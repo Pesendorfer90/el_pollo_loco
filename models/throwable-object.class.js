@@ -20,6 +20,7 @@ class ThrowableObject extends MovableObject {
 
     bottleSplashed = false;
     throwInterval;
+    applyGravitiyInterval;
 
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png')
@@ -34,7 +35,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.applyGravitiy();
+        this.bottleGravitiy();
         this.throwDirecton();
         this.animate();
         world.salsaBottleBar.removeBottle();
@@ -46,21 +47,33 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.isCollidiong(world.level.endboss[0])) {
-                if (!this.bottleSplashed) {
-                    setTimeout(() => {
-                        this.bottleSplashed = true;
-                        this.bottleSplash();
-                        clearInterval(this.throwInterval);
-                        clearInterval(this.applyGravitiyInterval)
-                    }, 120);
-                    ;
-                }
+            world.level.allEnemies.forEach(enemy => {
+                if (enemy.isCollidiong(this)) {
+                    if (!this.bottleSplashed) {
+                        setTimeout(() => {
+                            this.bottleSplashed = true;
+                            this.bottleSplash();
+                            clearInterval(this.throwInterval);
+                            clearInterval(this.applyGravitiyInterval)
+                        }, 0);
+                        ;
+                    }
 
-            } else if (!this.bottleSplashed) {
-                this.playAnimationLoop(this.IMAGES_BOTTLES);
+                } else if (!this.bottleSplashed) {
+                    this.playAnimationLoop(this.IMAGES_BOTTLES);
+                }
+            });
+        }, 20)
+    }
+
+
+    bottleGravitiy() {
+        this.applyGravitiyInterval = setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
             }
-        }, 70)
+        }, 1000 / 60)
     }
 
 
@@ -80,7 +93,7 @@ class ThrowableObject extends MovableObject {
         startSound(this.bottleSmash_sound);
         setInterval(() => {
             this.playAnimationLoop(this.IMAGES_BOTTLES_SPLASH);
-            
+
         }, 142)
     }
 }

@@ -139,8 +139,9 @@ function hideLoadingScreen() {
 
 
 function startScreenClicked() {
-    world.level.enemies.forEach(chicken => {
-        chicken.animate();
+    world.level.enemies.forEach(enemy => {
+        enemy.animate();
+        enemy.startMovement();
     });
     gameStarted = true;
     chooseMusic();

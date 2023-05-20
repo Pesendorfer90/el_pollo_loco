@@ -62,6 +62,7 @@ class Character extends MovableObject {
     lastThrow;
     idle = false;
     idleIntveral;
+    throwWaitingTime = 0.85;
 
 
     constructor() {
@@ -75,9 +76,12 @@ class Character extends MovableObject {
         this.width = 100;
         this.y = 140;
         this.speed = 5;
+        this.jumpY = 16;
         this.animate();
         this.movement();
         this.applyGravitiy();
+        this.stayOnGround();
+        this.hurtWaitingTime = 0.85;
     }
 
 
@@ -115,7 +119,7 @@ class Character extends MovableObject {
 
     characterJump() {
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-            this.jump(16);
+            this.jump(this.jumpY);
             startSound(this.jumping_sound);
         }
     }
@@ -123,7 +127,7 @@ class Character extends MovableObject {
 
     characterThrow() {
         if (this.world.keyboard.THROW) {
-            if (this.lastTimeThrow() == false) {
+            if (this.lastTime(this.lastThrow, this.throwWaitingTime) == false) {
                 this.throwBottle();
             }
         }
@@ -135,7 +139,7 @@ class Character extends MovableObject {
             if (this.characterMovement) {
                 if (this.isDead() && !this.characterDead) {
                     this.characterAnimationDead();
-                } else if (this.isHurt()) {
+                } else if (this.lastTime(this.lastHit, this.hurtWaitingTime)) {
                     this.characterAnimationHurt();
                 } else if (this.isAboveGround()) {
                     this.characterAnimationJump();
@@ -193,13 +197,6 @@ class Character extends MovableObject {
     }
 
 
-    lastTimeThrow() {
-        let timepassed = new Date().getTime() - this.lastThrow;
-        timepassed = timepassed / 1000;
-        return timepassed < 0.85;
-    }
-
-
     playHurtSound() {
         let energy = this.energy
         if (/5/.test(energy)) {
@@ -221,7 +218,7 @@ class Character extends MovableObject {
             this.loadImage('img/2_character_pepe/3_jump/J-36.png');
         } if (this.speedY <= -3) {
             this.loadImage('img/2_character_pepe/3_jump/J-37.png');
-        } if (this.speedY <= -14) {
+        } if (this.speedY <= -13) {
             this.loadImage('img/2_character_pepe/3_jump/J-38.png');
         }
     }
