@@ -8,12 +8,15 @@ let checkFullScreen = false;
 let intervalIds = [];
 let intro_music = new Audio('audio/Intro-guitar-quieter.mp3')
 let game_music = new Audio('audio/game-music-quieter.mp3')
+let userAgent = navigator.userAgent;
+let browserName;
 
 
 
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    fnBrowserDetect();
 }
 
 
@@ -143,6 +146,7 @@ function startScreenClicked() {
         enemy.animate();
         enemy.startMovement();
     });
+
     gameStarted = true;
     chooseMusic();
     world.character.characterMovement = true;
@@ -239,12 +243,20 @@ function reloadGame() {
 }
 
 
-function setStoppableInterval(fn, time) {
-    let id = setInterval(fn, time);
+function stoppableIntervalID(id) {
     intervalIds.push(id);
 }
 
 
 function stopGame() {
-    intervalIds.forEach(clearIntarval);
+    intervalIds.forEach(clearInterval)
+}
+
+
+
+function fnBrowserDetect() {
+    if (userAgent.match(/firefox|fxios/i)) {
+        browserName = "firefox";
+        document.getElementById('firefoxSuck').classList.remove('display-none');
+    }
 }

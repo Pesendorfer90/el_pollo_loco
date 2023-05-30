@@ -63,6 +63,7 @@ class Character extends MovableObject {
     idle = false;
     idleIntveral;
     throwWaitingTime = 0.85;
+    k = 1;
 
 
     constructor() {
@@ -75,18 +76,26 @@ class Character extends MovableObject {
         this.height = 280;
         this.width = 100;
         this.y = 140;
-        this.speed = 5;
+        this.speed = 6;
         this.jumpY = 16;
-        this.animate();
-        this.movement();
         this.applyGravitiy();
         this.stayOnGround();
         this.hurtWaitingTime = 0.85;
+        this.movement();
+        this.animate();
     }
 
 
+    // setIntervals() {
+    //     let movement = setInterval(() => this.movement(), 20);
+    //     let animate = setInterval(() => this.animate(), 50);
+    //     stoppableIntervalID(movement);
+    //     stoppableIntervalID(animate);
+    // }
+
+
     movement() {
-        setInterval(() => {
+        let movement = setInterval(() => {
             if (this.characterMovement) {
                 stopSound(this.walking_sound);
                 this.characterMoveRight();
@@ -95,7 +104,8 @@ class Character extends MovableObject {
                 this.characterThrow();
             }
             this.world.camera_x = -this.x + 100;
-        }, 1000 / 60)
+        }, 20);
+        stoppableIntervalID(movement);
     }
 
 
@@ -135,7 +145,7 @@ class Character extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        let animate = setInterval(() => {
             if (this.characterMovement) {
                 if (this.isDead() && !this.characterDead) {
                     this.characterAnimationDead();
@@ -147,7 +157,8 @@ class Character extends MovableObject {
                     this.walkOrIdle();
                 }
             }
-        }, 1000 / 20)
+        }, 50);
+        stoppableIntervalID(animate);
     }
 
 

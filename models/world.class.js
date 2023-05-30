@@ -184,7 +184,7 @@ class World {
             mo.write(this.ctx, i)
         } else {
             mo.draw(this.ctx);
-            mo.drawFrame(this.ctx);
+            // mo.drawFrame(this.ctx);
         } if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

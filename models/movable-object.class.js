@@ -67,6 +67,7 @@ class MovableObject extends DrawableObject {
 
     jump(speedY) {
         this.speedY = speedY;
+        console.log(speedY);
     }
 
 
@@ -124,7 +125,6 @@ class MovableObject extends DrawableObject {
             } else {
                 this.playAnimationLoop(this.IMAGES_DEAD);
                 counter++;
-                console.log(counter);
             }
         }, 150);
 

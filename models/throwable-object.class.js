@@ -1,10 +1,10 @@
 class ThrowableObject extends MovableObject {
 
     IMAGES_BOTTLES = [
-        'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
-        'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+        'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
+        'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
     ];
 
     IMAGES_BOTTLES_SPLASH = [
@@ -21,9 +21,11 @@ class ThrowableObject extends MovableObject {
     bottleSplashed = false;
     throwInterval;
     applyGravitiyInterval;
+    animateInterval;
+    splashInterval;
 
     constructor(x, y) {
-        super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png')
+        super().loadImage(this.IMAGES_BOTTLES[0])
         this.loadImages(this.IMAGES_BOTTLES)
         this.loadImages(this.IMAGES_BOTTLES_SPLASH)
         this.x = x;
@@ -41,29 +43,35 @@ class ThrowableObject extends MovableObject {
         world.salsaBottleBar.removeBottle();
         setTimeout(() => {
             world.throwableObject.splice(0, 1);
+            clearInterval(this.animateInterval)
+            clearInterval(this.splashInterval)
         }, 850)
     }
 
 
     animate() {
-        setInterval(() => {
-            world.level.allEnemies.forEach(enemy => {
-                if (enemy.isCollidiong(this)) {
-                    if (!this.bottleSplashed) {
-                        setTimeout(() => {
-                            this.bottleSplashed = true;
-                            this.bottleSplash();
-                            clearInterval(this.throwInterval);
-                            clearInterval(this.applyGravitiyInterval)
-                        }, 0);
+        this.animateInterval = setInterval(() => {
+            if (this.checkBottleColision()) {
+                // if (!this.bottleSplashed) {
+                //     this.bottleSplashed = true;
+                    this.bottleSplash();
+                    clearInterval(this.throwInterval);
+                    clearInterval(this.applyGravitiyInterval)
                         ;
-                    }
+                // }
+            } else if (!this.bottleSplashed) {
+                this.playAnimationLoop(this.IMAGES_BOTTLES);
+            }
+        }, 150)
+    }
 
-                } else if (!this.bottleSplashed) {
-                    this.playAnimationLoop(this.IMAGES_BOTTLES);
+
+    checkBottleColision() {
+            world.level.allEnemies.forEach(enemy => {
+                if (enemy.isCollidiong(this) && !enemy.isDead()) {
+                    return true;
                 }
             });
-        }, 20)
     }
 
 
@@ -91,7 +99,7 @@ class ThrowableObject extends MovableObject {
 
     bottleSplash() {
         startSound(this.bottleSmash_sound);
-        setInterval(() => {
+        this.splashInterval = setInterval(() => {
             this.playAnimationLoop(this.IMAGES_BOTTLES_SPLASH);
 
         }, 142)

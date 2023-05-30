@@ -76,9 +76,12 @@ class Endboss extends MovableObject {
                 this.attackAnimation();
                 this.animationIndex++
             }
-            if (world.character.x > 1900 && !this.animateEndboss && !this.endbossDead) {
-                this.startEndbossIntro()
+            if (world) {
+                if (world.character.x > 1900 && !this.animateEndboss && !this.endbossDead) {
+                    this.startEndbossIntro()
+                }
             }
+
         }, 120)
     }
 
