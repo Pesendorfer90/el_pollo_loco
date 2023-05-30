@@ -68,7 +68,7 @@ class Endboss extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        let animate = setInterval(() => {
             if (this.animateEndboss) {
                 this.introAnimation();
                 this.hurtAnimation();
@@ -83,6 +83,9 @@ class Endboss extends MovableObject {
             }
 
         }, 120)
+        setTimeout(() => {
+            stoppableIntervalID(animate);
+        }, 3500)
     }
 
 

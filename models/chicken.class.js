@@ -24,7 +24,7 @@ class Chicken extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        let animate = setInterval(() => {
             if (this.isDead()) {
                 if (!this.soundPlayed) {
                     this.soundPlayed = true;
@@ -35,15 +35,17 @@ class Chicken extends MovableObject {
                 this.playAnimationLoop(this.IMAGES_WALKING);
             }
         }, 80)
+        stoppableIntervalID(animate);
     }
 
 
     startMovement() {
-        setInterval(() => {
+        let movement = setInterval(() => {
             if (!this.isDead()) {
                 this.moveLeft();
             }
         }, 1000 / 60)
+        stoppableIntervalID(movement);
     }
 }
 

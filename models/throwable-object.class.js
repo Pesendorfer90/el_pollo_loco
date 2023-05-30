@@ -20,7 +20,7 @@ class ThrowableObject extends MovableObject {
 
     bottleSplashed = false;
     throwInterval;
-    applyGravitiyInterval;
+    applyGravityInterval;
     animateInterval;
     splashInterval;
 
@@ -37,7 +37,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.bottleGravitiy();
+        this.bottleGravity();
         this.throwDirecton();
         this.animate();
         world.salsaBottleBar.removeBottle();
@@ -51,32 +51,33 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         this.animateInterval = setInterval(() => {
-            if (this.checkBottleColision()) {
-                // if (!this.bottleSplashed) {
-                //     this.bottleSplashed = true;
-                    this.bottleSplash();
-                    clearInterval(this.throwInterval);
-                    clearInterval(this.applyGravitiyInterval)
-                        ;
-                // }
-            } else if (!this.bottleSplashed) {
-                this.playAnimationLoop(this.IMAGES_BOTTLES);
-            }
-        }, 150)
+            this.checkBottleColision();
+            this.bottleRotation();
+        }, 50)
     }
 
 
     checkBottleColision() {
-            world.level.allEnemies.forEach(enemy => {
-                if (enemy.isCollidiong(this) && !enemy.isDead()) {
-                    return true;
-                }
-            });
+        world.level.allEnemies.forEach(enemy => {
+            if (enemy.isCollidiong(this) && !enemy.isDead()) {
+                this.bottleSplash();
+                clearInterval(this.throwInterval);
+                clearInterval(this.applyGravityInterval)
+                this.bottleSplashed = true;
+            }
+        });
     }
 
 
-    bottleGravitiy() {
-        this.applyGravitiyInterval = setInterval(() => {
+    bottleRotation() {
+        if (!this.bottleSplashed) {
+            this.playAnimationLoop(this.IMAGES_BOTTLES);
+        }
+    }
+
+
+    bottleGravity() {
+        this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -101,7 +102,6 @@ class ThrowableObject extends MovableObject {
         startSound(this.bottleSmash_sound);
         this.splashInterval = setInterval(() => {
             this.playAnimationLoop(this.IMAGES_BOTTLES_SPLASH);
-
         }, 142)
     }
 }

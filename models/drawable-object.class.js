@@ -55,11 +55,12 @@ class DrawableObject {
 
 
     fadeInImg(alpha) {
-        setTimeout(() => {
+        let interval = setTimeout(() => {
             setInterval(() => {
                 this.setTransparency(alpha);
             }, 20)
         }, 1000)
+        stoppableIntervalID(interval);
     }
     
 

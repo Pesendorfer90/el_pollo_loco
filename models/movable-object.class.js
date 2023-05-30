@@ -5,30 +5,37 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 0.8;
     energy = 100;
+    health = 100;
     lastThrow = 0;
     lastHit = 0;
-    gravitiyDeadCharacterInterval;
+    gravityDeadCharacterInterval;
     hurtWaitingTime;
     hitStrength;
 
 
-    applyGravitiy() {
-        setInterval(() => {
+    applyGravity() {
+        let gravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 60)
+        setTimeout(() => {
+            stoppableIntervalID(gravityInterval);
+        }, 3500)
     }
 
 
     stayOnGround() {
-        setInterval(() => {
+        let groundInterval = setInterval(() => {
             if (!this.isAboveGround() && !world.character.characterDead) {
                 this.speedY = 0;
                 this.y = 140;
             }
         }, 10)
+        setTimeout(() => {
+            stoppableIntervalID(groundInterval);
+        }, 3500)
     }
 
     isAboveGround() {
@@ -67,16 +74,18 @@ class MovableObject extends DrawableObject {
 
     jump(speedY) {
         this.speedY = speedY;
-        console.log(speedY);
     }
 
 
     fallDown() {
-        setInterval(() => {
+        let fallDownInterval = setInterval(() => {
             this.speedY = 12
             this.acceleration = 5.5;
             this.y += 1;
         }, 1)
+        setTimeout(() => {
+            stoppableIntervalID(fallDownInterval);
+        }, 3500)
     }
 
 
@@ -130,9 +139,12 @@ class MovableObject extends DrawableObject {
 
         if (world.character.characterDead || world.level.endboss[0].endbossDead) {
             setTimeout(() => {
-                setInterval(() => {
+                let fallDownInterval = setInterval(() => {
                     this.fallDown();
                 }, 120)
+                setTimeout(() => {
+                    stoppableIntervalID(fallDownInterval);
+                }, 3500)
             }, 230)
         }
     }

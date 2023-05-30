@@ -22,12 +22,12 @@ class ChickenBaby extends MovableObject {
         this.jumpY = 12;
         this.energy = 100;
         this.randomJump = 0.5 + Math.random() * 4;
-        this.applyGravitiy();
+        this.applyGravity();
         this.hitStrength = 5;
     }
 
     animate() {
-        setInterval(() => {
+        let animate = setInterval(() => {
             if (this.isDead()) {
                 if (!this.soundPlayed) {
                     this.soundPlayed = true;
@@ -38,11 +38,12 @@ class ChickenBaby extends MovableObject {
                 this.playAnimationLoop(this.IMAGES_WALKING);
             }
         }, 80)
+        stoppableIntervalID(animate);
     }
 
 
     startMovement() {
-        setInterval(() => {
+        let movement = setInterval(() => {
             if (!this.isDead()) {
                 this.moveLeft();
                 if (!this.isAboveGround() && this.lastTime(this.lastJump, this.randomJump) == false) {
@@ -50,6 +51,7 @@ class ChickenBaby extends MovableObject {
                 }
             }
         }, 1000 / 60)
+        stoppableIntervalID(movement);
     }
 
 

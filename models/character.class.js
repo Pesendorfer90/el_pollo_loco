@@ -78,20 +78,12 @@ class Character extends MovableObject {
         this.y = 140;
         this.speed = 6;
         this.jumpY = 16;
-        this.applyGravitiy();
+        this.applyGravity();
         this.stayOnGround();
         this.hurtWaitingTime = 0.85;
         this.movement();
         this.animate();
     }
-
-
-    // setIntervals() {
-    //     let movement = setInterval(() => this.movement(), 20);
-    //     let animate = setInterval(() => this.animate(), 50);
-    //     stoppableIntervalID(movement);
-    //     stoppableIntervalID(animate);
-    // }
 
 
     movement() {

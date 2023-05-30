@@ -10,7 +10,7 @@ class HealthBarEndboss extends DrawableObject {
     ];
 
     energy = 100;
-
+    health = 100;
 
     constructor() {
         super();
@@ -29,7 +29,7 @@ class HealthBarEndboss extends DrawableObject {
     }
 
     resolveImagesIndex() {
-        if (this.health == 100) {
+        if (this.health > 80) {
             return 5;
         } else if (this.health == 80) {
             return 4;

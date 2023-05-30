@@ -34,11 +34,12 @@ class World {
 
 
     checkCollisions() {
-        setInterval(() => {
+        let collisionIntervall = setInterval(() => {
             this.enemyCollision();
             this.coinCollision();
             this.bottleCollision();
         }, 10)
+        stoppableIntervalID(collisionIntervall);
     }
 
 
@@ -93,18 +94,21 @@ class World {
 
 
     enemyCollides(hitStrength) {
-            this.character.hit(hitStrength);
-            this.statusBar.setHealth(this.character.energy);
+        this.character.hit(hitStrength);
+        this.statusBar.setHealth(this.character.energy);
     }
 
 
     bottleHitEnemy(enemy) {
         this.throwableObject.forEach((salsaBottle) => {
-                if (enemy.isCollidiong(salsaBottle) &&
+            if (enemy.isCollidiong(salsaBottle) &&
                 enemy.lastTime(enemy.lastHit, enemy.hurtWaitingTime) == false) {
-                    enemy.hit('20');
+                enemy.hit('20');
+                console.log(enemy);
+                if (enemy == world.level.endboss[0]) {
                     this.healthBarEndboss.setHealth(enemy.energy);
                 }
+            }
         })
     }
 

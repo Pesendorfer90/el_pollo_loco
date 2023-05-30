@@ -239,7 +239,9 @@ function closeFullscreen() {
 
 
 function reloadGame() {
-
+    stopGame();
+    world = '';
+    init();
 }
 
 
@@ -249,9 +251,11 @@ function stoppableIntervalID(id) {
 
 
 function stopGame() {
-    intervalIds.forEach(clearInterval)
+    intervalIds.forEach(interval => {
+        clearInterval(interval);
+    })
+    // intervalIds.forEach(clearInterval);
 }
-
 
 
 function fnBrowserDetect() {
