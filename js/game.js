@@ -1,22 +1,28 @@
 let canvas;
-let world
+let world;
 let keyboard = new Keyboard();
 let doomEventListener;
 let gameStarted = false;
 let playSound = false;
 let checkFullScreen = false;
 let intervalIds = [];
-let intro_music = new Audio('audio/Intro-guitar-quieter.mp3')
-let game_music = new Audio('audio/game-music-quieter.mp3')
+let intro_music = new Audio('audio/Intro-guitar-quieter.mp3');
+let game_music = new Audio('audio/game-music-quieter.mp3');
 let userAgent = navigator.userAgent;
 let browserName;
+let level1;
+let firstGame = true;
 
 
 
 function init() {
+    loadLevel();
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
     fnBrowserDetect();
+    world = new World(canvas, keyboard);
+    if (firstGame) {
+        hideLoadingScreen();
+    }
 }
 
 
@@ -136,6 +142,11 @@ function animateLoadingScreen(element, className) {
 }
 
 
+function showLoadingScreen() {
+    document.getElementById('loadingScreen').classList.remove('display-none');
+}
+
+
 function hideLoadingScreen() {
     document.getElementById('loadingScreen').classList.add('display-none');
 }
@@ -239,9 +250,10 @@ function closeFullscreen() {
 
 
 function reloadGame() {
+    firstGame = false;
+    showLoadingScreen();
+    hideTryAgain();
     stopGame();
-    world = '';
-    init();
 }
 
 
@@ -251,10 +263,23 @@ function stoppableIntervalID(id) {
 
 
 function stopGame() {
+    let i = 0;
     intervalIds.forEach(interval => {
         clearInterval(interval);
+        i++;
+        if (i == (intervalIds.length - 1)) {
+            init();
+            setTimeout(() => {
+                startScreenClicked();
+                hideLoadingScreen();
+            }, 5000)
+        }
     })
-    // intervalIds.forEach(clearInterval);
+}
+
+
+function hideTryAgain() {
+    document.getElementById('reload').classList.add('display-none')
 }
 
 

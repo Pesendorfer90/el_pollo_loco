@@ -4,8 +4,8 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 0.8;
-    energy = 100;
-    health = 100;
+    energy = 1;
+    health = 1;
     lastThrow = 0;
     lastHit = 0;
     gravityDeadCharacterInterval;

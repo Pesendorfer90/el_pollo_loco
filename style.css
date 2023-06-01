@@ -121,7 +121,7 @@ canvas {
 }
 
 .start-button {
-    width: 18%;
+    width: 16%;
 }
 
 .animated-button {
@@ -188,9 +188,10 @@ canvas {
 }
 
 .reload-button {
-    height: 50px;
-    width: 175px;
+    /* height: 50px;
+    width: 175px; */
     margin-bottom: 8px;
+    padding: 6px;
 }
 
 .mobile-control {
@@ -294,165 +295,4 @@ canvas {
     background-color: darkgray;
     cursor: pointer;
     padding: 5px;
-}
-
-
-/* Smartphone */
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-        height: 66.7vw;
-    }
-
-    .main-content {
-        width: 100%;
-        height: 67vw;
-    }
-
-    .button-container {
-        width: 100%;
-        height: 33vw;
-    }
-
-    .start-button {
-        font-size: 6.4vw;
-        border: 0.3vw solid black;
-    }
-
-    .button {
-        width: 4.4vw;
-        height: 4.4vw;
-        margin: 1.7vw;
-    }
-
-    .button-img {
-        width: 3.3vw;
-        height: 3.3vw;
-    }
-
-    .button-fullscreen-img {
-        width: 2.5vw;
-        height: 2.5vw;
-    }
-
-    .info-container {
-        width: 100%;
-        height: 100%;
-        font-size: 5.0vw;
-    }
-
-    .info-container h1 {
-        margin-bottom: 4.19vw;
-        margin-top: 1.397vw;
-    }
-
-    .info-container span {
-        font-size: 6.99vw;
-        margin: 3.4vw;
-    }
-
-    .close-Info-button {
-        width: 14vw;
-        font-size: 6.65vw;
-        border: 0.6vw solid black;
-    }
-
-    .mobile-control {
-        width: 100%;
-        height: 33vw;
-    }
-
-    .button-border {
-        width: 8.3vw;
-        height: 8.3vw;
-        margin: 0.9vw;
-    }
-
-    .mobile-control-img {
-        height: 5vw;
-    }
-
-    .throw-bottle {
-        height: 9.7vw;
-    }
-}
-
-/* Smartphone */
-@media only screen and (max-height: 480px) {
-    canvas {
-        height: 100%;
-        width: 150vh;
-    }
-
-    .main-content {
-        height: 100%;
-        width: 150vh;
-    }
-
-    .button-container {
-        height: 50%;
-        width: 150vh;
-    }
-
-    .start-button {
-        font-size: 9.5vh;
-        border: 0.25vw solid black;
-    }
-
-    .button {
-        width: 6.6vh;
-        height: 6.6vh;
-        margin: 2.5vh;
-    }
-
-    .button-img {
-        width: 5vh;
-        height: 5vh;
-    }
-
-    .button-fullscreen-img {
-        width: 3.6vh;
-        height: 3.6vh;
-    }
-
-    .info-container {
-        width: 100%;
-        height: 100%;
-        font-size: 7.5vh;
-    }
-
-    .info-container h1 {
-        margin-bottom: 6.25vh;
-        margin-top: 2.084vh
-    }
-
-    .info-container span {
-        font-size: 10.4vh;
-        margin: 5vh;
-    }
-
-    .close-Info-button {
-        width: 20.835vh;
-        font-size: 10vh;
-        border: 1vh solid black;
-    }
-
-    .mobile-control {
-        height: 50%;
-        width: 150vh;
-    }
-
-    .button-border {
-        width: 12.6vh;
-        height: 12.6vh;
-        margin: 1.25vh;
-    }
-
-    .mobile-control-img {
-        height: 7.6vh;
-    }
-
-    .throw-bottle {
-        height: 14.7vh;
-    }
 }

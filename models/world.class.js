@@ -9,7 +9,7 @@ class World {
     coinBar = new CoinBar();
     salsaBottleBar = new SalsaBottleBar();
     throwableObject = [];
-    level = level1;
+    level;
     canvas;
     ctx;
     keyboard;
@@ -22,6 +22,7 @@ class World {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
+        this.level = level1;
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -170,7 +171,7 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
-        hideLoadingScreen();
+        // hideLoadingScreen();
     }
 
 

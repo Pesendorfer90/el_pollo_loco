@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-mobile.css">
     <link rel="stylesheet" href="loading-screen.css">
 
     <script src="models/drawable-object.class.js"></script>
@@ -37,7 +38,7 @@
 </head>
 
 <body onload="init()">
-    <div class="loading-screen" id="loadingScreen">
+    <!-- <div class="loading-screen" id="loadingScreen">
         <h1>Loading
             <div class="dots">
                 <span class="dot z"></span>
@@ -48,7 +49,7 @@
                 </span>
             </div>
         </h1>
-    </div>
+    </div> -->
 
     <div class="bg-image"></div>
     <div id="fullScreenContainer">
@@ -113,6 +114,22 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="loading-screen" id="loadingScreen">
+                <h1>Loading
+                    <div class="dots">
+                        <span class="dot z"></span>
+                        <span class="dot f"></span>
+                        <span class="dot s"></span>
+                        <span class="dot t">
+                            <span class="dot l"></span>
+                        </span>
+                    </div>
+                </h1>
+            </div>
+
+
         </div>
         <div class="firefox-suck display-none" id="firefoxSuck">
             <h2>Firefox detected</h2>
