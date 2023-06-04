@@ -31,6 +31,7 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="levels/level1.js"></script>
+    <script src="js/controlls.js"></script>
     <script src="js/game.js"></script>
 
     <title>El pollo loco</title>
@@ -38,19 +39,6 @@
 </head>
 
 <body onload="init()">
-    <!-- <div class="loading-screen" id="loadingScreen">
-        <h1>Loading
-            <div class="dots">
-                <span class="dot z"></span>
-                <span class="dot f"></span>
-                <span class="dot s"></span>
-                <span class="dot t">
-                    <span class="dot l"></span>
-                </span>
-            </div>
-        </h1>
-    </div> -->
-
     <div class="bg-image"></div>
     <div id="fullScreenContainer">
         <div class="main-content" id="mainContent">
@@ -67,7 +55,8 @@
                     <div class="empty-space" id="emptySpaceRight"></div>
                 </div>
                 <div class="start-button-container z-index">
-                    <div class="animated-button start-button" id="startButton" onclick="startScreenClicked()">Start</div>
+                    <div class="animated-button start-button" id="startButton" onclick="startScreenClicked()">Start
+                    </div>
                 </div>
             </div>
             <div class="info-container display-none" id="infoContainer">
@@ -133,7 +122,8 @@
         </div>
         <div class="firefox-suck display-none" id="firefoxSuck">
             <h2>Firefox detected</h2>
-            <p>Our game is currently not compatible with the Firefox browser.<br>Please use a different browser such as<br>Chrome, Edge, or Opera to fully enjoy the game.</p>
+            <p>Our game is currently not compatible with the Firefox browser.<br>Please use a different browser such
+                as<br>Chrome, Edge, or Opera to fully enjoy the game.</p>
             <a href="https://www.google.de/intl/en/chrome/">Download Chrome</a>
             <a href="https://www.opera.com/">Download Opera</a>
             <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ">Download Edge</a>

@@ -14,7 +14,9 @@ let level1;
 let firstGame = true;
 
 
-
+/**
+ * Load objects, detect browser and hide loading screen.
+ */
 function init() {
     loadLevel();
     canvas = document.getElementById('canvas');
@@ -26,6 +28,9 @@ function init() {
 }
 
 
+/**
+ * wait for content and start animated loading screen.
+ */
 doomEventListener = document.addEventListener("DOMContentLoaded", function () {
     let $ = (e) => document.querySelector(e);
     let dots = $(".dots");
@@ -35,100 +40,11 @@ doomEventListener = document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-window.addEventListener('keydown', (event) => {
-    if (event.keyCode == 39 || event.keyCode == 68) {
-        keyboard.RIGHT = true;
-    }
-
-
-    if (event.keyCode == 37 || event.keyCode == 65) {
-        keyboard.LEFT = true;
-    }
-
-
-    if (event.keyCode == 32) {
-        keyboard.SPACE = true;
-    }
-
-
-    if (event.keyCode == 16) {
-        keyboard.THROW = true;
-    }
-})
-
-
-window.addEventListener('keyup', (event) => {
-    if (event.keyCode == 39 || event.keyCode == 68) {
-        keyboard.RIGHT = false;
-    }
-
-
-    if (event.keyCode == 37 || event.keyCode == 65) {
-        keyboard.LEFT = false;
-    }
-
-
-    if (event.keyCode == 32) {
-        keyboard.SPACE = false;
-    }
-
-
-    if (event.keyCode == 16) {
-        keyboard.THROW = false;
-    }
-});
-
-
-function touch() {
-    document.getElementById('btnRight').addEventListener("touchstart", () => {
-        event.preventDefault();
-        keyboard.RIGHT = true;
-    });
-
-
-    document.getElementById('btnRight').addEventListener("touchend", () => {
-        event.preventDefault();
-        keyboard.RIGHT = false;
-    });
-
-
-    document.getElementById('btnLeft').addEventListener("touchstart", () => {
-        event.preventDefault();
-        keyboard.LEFT = true;
-    });
-
-
-    document.getElementById('btnLeft').addEventListener("touchend", () => {
-        event.preventDefault();
-        keyboard.LEFT = false;
-    });
-
-
-    document.getElementById('btnThrow').addEventListener("touchstart", () => {
-        event.preventDefault();
-        keyboard.THROW = true;
-    });
-
-
-    document.getElementById('btnThrow').addEventListener("touchend", () => {
-        event.preventDefault();
-        keyboard.THROW = false;
-    });
-
-
-    document.getElementById('btnJump').addEventListener("touchstart", () => {
-        event.preventDefault();
-        keyboard.SPACE = true;
-    });
-
-
-    document.getElementById('btnJump').addEventListener("touchend", () => {
-        event.preventDefault();
-        keyboard.SPACE = false;
-    });
-}
-
-
+/**
+ * Animate the loading screen.
+ * @param {string} element - This is the id of the dots
+ * @param {string} className - This is the style class for the animation
+ */
 function animateLoadingScreen(element, className) {
     $ = (e) => document.querySelector(e);
     dots = $(".dots");
@@ -138,26 +54,36 @@ function animateLoadingScreen(element, className) {
         setTimeout(() => {
             animateLoadingScreen(element, className);
         }, 500);
-    }, 2500);
+    }, 2000);
 }
 
 
+/**
+ * Remove display-none to show loadingscreen.
+ */
 function showLoadingScreen() {
     document.getElementById('loadingScreen').classList.remove('display-none');
 }
 
 
+/**
+ * Add display-none to hide loadingscreen.
+ */
 function hideLoadingScreen() {
     document.getElementById('loadingScreen').classList.add('display-none');
 }
 
 
+/**
+ * when start is clicked, the animation of the enemies and the character is activated.
+ * Add display-none to hide start butoon.
+ * Move the buttons to the middle.
+ */
 function startScreenClicked() {
     world.level.enemies.forEach(enemy => {
         enemy.animate();
         enemy.startMovement();
     });
-
     gameStarted = true;
     chooseMusic();
     world.character.characterMovement = true;
@@ -167,6 +93,9 @@ function startScreenClicked() {
 }
 
 
+/**
+ * toggles between mute or play when the button is clicked
+ */
 function switchSound() {
     soundImg = document.getElementById('muteOnOff');
     if (playSound) {
@@ -182,6 +111,10 @@ function switchSound() {
 }
 
 
+/**
+ * Starts audio playback.
+ * @param {audio path} sound 
+ */
 function startSound(sound) {
     if (playSound) {
         sound.play();
@@ -189,11 +122,18 @@ function startSound(sound) {
 }
 
 
+/**
+ * Stops the audio playback.
+ * @param {audio path} sound 
+ */
 function stopSound(sound) {
     sound.pause();
 }
 
 
+/**
+ * decide what music is played (startscreen or game)
+ */
 function chooseMusic() {
     if (gameStarted) {
         startSound(game_music);
@@ -205,16 +145,25 @@ function chooseMusic() {
 }
 
 
+/**
+ * Removes display none and shows game information.
+ */
 function showInfo() {
     document.getElementById('infoContainer').classList.remove('display-none')
 }
 
 
+/**
+ * RAdd display none and hide game information.
+ */
 function closeInfo() {
     document.getElementById('infoContainer').classList.add('display-none')
 }
 
 
+/**
+ * Enables or disables fullscreen mode for the Container.
+ */
 function fullScreen() {
     let fullScreenContent = document.getElementById('fullScreenContainer');
     if (checkFullScreen) {
@@ -227,6 +176,10 @@ function fullScreen() {
 }
 
 
+/**
+ * Activates the full screen mode.
+ * @param {ID} elem 
+ */
 function openFullscreen(elem) {
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -238,6 +191,9 @@ function openFullscreen(elem) {
 }
 
 
+/**
+ * Disables full screen mode.
+ */
 function closeFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -249,6 +205,9 @@ function closeFullscreen() {
 }
 
 
+/**
+ * Restart the game.
+ */
 function reloadGame() {
     firstGame = false;
     showLoadingScreen();
@@ -257,11 +216,19 @@ function reloadGame() {
 }
 
 
+/**
+ * function to push intervals into an array
+ * @param {intervall ID} id 
+ */
 function stoppableIntervalID(id) {
     intervalIds.push(id);
 }
 
 
+/**
+ * Stops all intervals from this array.
+ * Then the game restarts.
+ */
 function stopGame() {
     let i = 0;
     intervalIds.forEach(interval => {
@@ -269,20 +236,27 @@ function stopGame() {
         i++;
         if (i == (intervalIds.length - 1)) {
             init();
-            setTimeout(() => {
+            // setTimeout(() => {
                 startScreenClicked();
                 hideLoadingScreen();
-            }, 5000)
+            // }, 1000)
         }
     })
 }
 
 
+/**
+ * Add display-none to hide "Try again" butoon.
+ */
 function hideTryAgain() {
     document.getElementById('reload').classList.add('display-none')
 }
 
 
+/**
+ * When the browser firefox is detected,
+ * display-none is removed from a div to display a message.
+ */
 function fnBrowserDetect() {
     if (userAgent.match(/firefox|fxios/i)) {
         browserName = "firefox";
