@@ -12,6 +12,7 @@ let userAgent = navigator.userAgent;
 let browserName;
 let level1;
 let firstGame = true;
+let portrait = window.matchMedia("(orientation: portrait)");
 
 
 /**
@@ -20,16 +21,28 @@ let firstGame = true;
 function init() {
     loadLevel();
     canvas = document.getElementById('canvas');
-    fnBrowserDetect();
     world = new World(canvas, keyboard);
-    if (firstGame) {
-        hideLoadingScreen();
-    }
+    checkValues();
 }
 
 
 /**
- * wait for content and start animated loading screen.
+ * Various functions for checking values.
+ */
+function checkValues() {
+    if (firstGame) {
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 5000)
+    }
+    checkMobileControll();
+    fnBrowserDetect();
+    checkScreenResolution();
+}
+
+
+/**
+ * Wait for content and start animated loading screen.
  */
 doomEventListener = document.addEventListener("DOMContentLoaded", function () {
     let $ = (e) => document.querySelector(e);
@@ -75,7 +88,7 @@ function hideLoadingScreen() {
 
 
 /**
- * when start is clicked, the animation of the enemies and the character is activated.
+ * When start is clicked, the animation of the enemies and the character is activated.
  * Add display-none to hide start butoon.
  * Move the buttons to the middle.
  */
@@ -94,7 +107,7 @@ function startScreenClicked() {
 
 
 /**
- * toggles between mute or play when the button is clicked
+ * Toggles between mute or play when the button is clicked
  */
 function switchSound() {
     soundImg = document.getElementById('muteOnOff');
@@ -113,7 +126,7 @@ function switchSound() {
 
 /**
  * Starts audio playback.
- * @param {audio path} sound 
+ * @param {string} sound - Audio path of the audio to be played
  */
 function startSound(sound) {
     if (playSound) {
@@ -124,7 +137,7 @@ function startSound(sound) {
 
 /**
  * Stops the audio playback.
- * @param {audio path} sound 
+ * @param {string} sound - Audio path of the audio to be stopped
  */
 function stopSound(sound) {
     sound.pause();
@@ -132,7 +145,7 @@ function stopSound(sound) {
 
 
 /**
- * decide what music is played (startscreen or game)
+ * Decide what music is played (startscreen or game)
  */
 function chooseMusic() {
     if (gameStarted) {
@@ -154,7 +167,7 @@ function showInfo() {
 
 
 /**
- * RAdd display none and hide game information.
+ * Add display none and hide game information.
  */
 function closeInfo() {
     document.getElementById('infoContainer').classList.add('display-none')
@@ -173,12 +186,13 @@ function fullScreen() {
         openFullscreen(fullScreenContent);
         checkFullScreen = true;
     }
+    setLandscapeView();
 }
 
 
 /**
  * Activates the full screen mode.
- * @param {ID} elem 
+ * @param {string} elem - ID of the div that should activate in fullscreen
  */
 function openFullscreen(elem) {
     if (elem.requestFullscreen) {
@@ -205,6 +219,20 @@ function closeFullscreen() {
 }
 
 
+
+/**
+ * Uses the if query to check whether the landscape mode is true and starts the appropriate functions.
+ */
+function setLandscapeView() {
+    if (checkWindowResolution()) {
+        if (checkFullScreen) {
+            setFullSize();
+        } else {
+            setNormalSize()
+        }
+    }
+}
+
 /**
  * Restart the game.
  */
@@ -217,8 +245,8 @@ function reloadGame() {
 
 
 /**
- * function to push intervals into an array
- * @param {intervall ID} id 
+ * Function to push setIntervals into an array
+ * @param {sting} id - ID of setInterval
  */
 function stoppableIntervalID(id) {
     intervalIds.push(id);
@@ -236,10 +264,8 @@ function stopGame() {
         i++;
         if (i == (intervalIds.length - 1)) {
             init();
-            // setTimeout(() => {
-                startScreenClicked();
-                hideLoadingScreen();
-            // }, 1000)
+            startScreenClicked();
+            hideLoadingScreen();
         }
     })
 }
@@ -250,6 +276,91 @@ function stopGame() {
  */
 function hideTryAgain() {
     document.getElementById('reload').classList.add('display-none')
+}
+
+
+/**
+ * Check the current inner height and inner width of the browser.
+ * @returns {boolean} - True if the inner height is less than 720px or 
+ * innerWidth is less than 1280px, false otherwise.
+ */
+function checkWindowResolution() {
+    let windowHeight = window.innerHeight;
+    let windowWidth = window.innerWidth;
+    if (windowHeight < 720 || windowWidth < 1280) {
+        return true;
+    }
+}
+
+
+/**
+ * Check if the screen height is greater than the screen width.
+ * Check if it is a touch device.
+ * If both are true, an info opens.
+ */
+function checkScreenResolution() {
+    let screenHeight = window.screen.availHeight;
+    let screenWidth = window.screen.availWidth;
+    if (screenHeight > screenWidth && isTouchEnabled()) {
+        document.getElementById('portraitWarning').classList.remove('display-none')
+    }
+}
+
+
+/**
+ * Event listener to detect if the device changes its screen orientation.
+ */
+portrait.addEventListener("change", function(e) {
+    if(e.matches) {
+        document.getElementById('portraitWarning').classList.remove('display-none')
+    } else {
+        document.getElementById('portraitWarning').classList.add('display-none')
+    }
+})
+
+
+/**
+ * Adds the class to the required div's to work in landscape mode.
+ */
+function setFullSize() {
+    document.getElementById('mainContent').classList.add('fullscreen');
+    document.getElementById('canvas').classList.add('fullscreen');
+    document.getElementById('infoContainer').classList.add('fullscreen');
+    document.getElementById('reload').classList.add('fullscreen-half-height');
+    document.getElementById('mobileControl').classList.add('fullscreen-mobile-controll');
+}
+
+
+/**
+ * Removes the class to add the required div's to work in landscape mode.
+ */
+function setNormalSize() {
+    document.getElementById('mainContent').classList.remove('fullscreen');
+    document.getElementById('canvas').classList.remove('fullscreen');
+    document.getElementById('infoContainer').classList.remove('fullscreen');
+    document.getElementById('reload').classList.remove('fullscreen-half-height');
+    document.getElementById('mobileControl').classList.remove('fullscreen-mobile-controll');
+}
+
+
+/**
+ * If touch is allowed, the mobile control buttons will be activated.
+ */
+function checkMobileControll() {
+    if (isTouchEnabled()) {
+        document.getElementById('mobileControl').classList.remove('display-none');
+    }
+}
+
+
+/**
+ * Checks if this is a touch device.
+ * @returns {boolean} - True when the screen is touched, false otherwise.
+ */
+function isTouchEnabled() {
+    return ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0);
 }
 
 

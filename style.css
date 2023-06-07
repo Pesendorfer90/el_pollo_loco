@@ -22,8 +22,29 @@ body {
     display: flex;
 }
 
-.z-index {
-    z-index: 2;
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-bg {
+    background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
+}
+
+.fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.fullscreen-half-height {
+    width: 100% !important;
+    height: 50% !important;
+}
+
+.fullscreen-mobile-controll {
+    height: 50% !important;
+    width: 85% !important;
 }
 
 .main-content {
@@ -75,19 +96,15 @@ canvas {
 .info-button {
     display: flex;
     justify-content: end;
+    z-index: 2;
 }
 
 .button {
     margin: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 100%;
     border: 1px solid black;
     width: 32px;
     height: 32px;
-    background: rgb(255, 222, 1);
-    background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
     -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.54);
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.34);
     user-select: none;
@@ -125,15 +142,10 @@ canvas {
 }
 
 .animated-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 46px;
     letter-spacing: 2px;
     border-radius: 10px;
     border: 2px solid black;
-    background: rgb(255, 222, 1);
-    background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
     animation: pulse 1500ms infinite;
     -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.54);
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.34);
@@ -145,10 +157,6 @@ canvas {
     width: 720px;
     height: 480px;
     border-radius: 10px;
-    background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     font-size: 36px;
     letter-spacing: 1px;
@@ -183,13 +191,13 @@ canvas {
 }
 
 .close-Info-button:hover,
-.close-Info-button:active {
+.close-Info-button:active,
+.button:hover,
+.button:active {
     transform: scale(1.05);
 }
 
 .reload-button {
-    /* height: 50px;
-    width: 175px; */
     margin-bottom: 8px;
     padding: 6px;
 }
@@ -212,9 +220,6 @@ canvas {
     border-radius: 100%;
     height: 60px;
     width: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin: 6px;
 }
 
@@ -252,7 +257,9 @@ canvas {
     }
 }
 
-.start-button:hover {
+.start-button:hover,
+.reload-button:hover,
+.button:hover {
     cursor: pointer;
 }
 
@@ -268,6 +275,21 @@ canvas {
     width: 100vw;
 }
 
+.rotate-info {
+    position: absolute;
+    z-index: 6;
+    width: 720px;
+    height: 480px;
+    border-radius: 10px;
+    flex-direction: column;
+    font-size: 44px;
+    letter-spacing: 1px;
+}
+
+.rotate-info h3 {
+    margin: 20px;
+}
+
 .firefox-suck {
     z-index: 8;
     position: absolute;
@@ -278,10 +300,6 @@ canvas {
     transform: translate(-50%, -50%);
     font-family: 'Courier New', Courier, monospace;
     font-size: 40px;
-    background-color: rgb(177, 0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     text-align: center;
 }

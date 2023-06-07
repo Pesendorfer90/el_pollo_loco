@@ -1,3 +1,7 @@
+/**
+ * Represents an Endboss enemy that extends the MoveableObject class.
+ * @extends MoveableObject
+ */
 class Endboss extends MovableObject {
 
     IMAGES_WALKING = [
@@ -47,6 +51,10 @@ class Endboss extends MovableObject {
     animateEndboss = false;
     animationIndex;
 
+
+    /**
+     * Creates a new instance of the Endboss class.
+     */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -66,7 +74,9 @@ class Endboss extends MovableObject {
     }
 
 
-
+    /**
+     * Function to animate the Endboss.
+     */
     animate() {
         let animate = setInterval(() => {
             if (this.animateEndboss) {
@@ -83,12 +93,13 @@ class Endboss extends MovableObject {
             }
 
         }, 120)
-        setTimeout(() => {
             stoppableIntervalID(animate);
-        }, 3500)
     }
 
 
+    /**
+     * A function that executes animations in sequence.
+     */
     introAnimation() {
         if (this.animationIndex < 35) {
             this.walkIn();
@@ -99,18 +110,27 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Animated that the final boss goes in the direction of the character.
+     */
     walkIn() {
         this.playAnimationLoop(this.IMAGES_WALKING);
         this.moveLeft();
     }
 
 
+    /**
+     * Animates that the final boss has seen the character and is angry.
+     */
     alertIntro() {
         this.playAnimationLoop(this.IMAGES_ALERT);
         world.character.characterMovement = true;
     }
 
 
+    /**
+     * Starts when the final boss is injured.
+     */
     hurtAnimation() {
         if (this.lastTime(this.lastHit, this.hurtWaitingTime) && !this.isDead()) {
             startSound(this.bigChickenHurt_sound);
@@ -119,17 +139,23 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Starts when the final boss is dead.
+     */
     isDeadAnimation() {
         if (this.isDead() && !this.endbossDead) {
+            this.animateEndboss = false;
             this.endbossDead = true;
             this.deadAnimation(2);
             this.gameOver();
             world.character.characterMovement = false;
-            this.animateEndboss = false;
         }
     }
 
 
+    /**
+     * Default animation performed when the final boss walks towards the character.
+     */
     attackAnimation() {
         if (this.animationIndex > 43 && !this.lastTime(this.lastHit, this.hurtWaitingTime)) {
             this.playAnimationLoop(this.IMAGES_ATTACK);
@@ -144,6 +170,9 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Starts the intro of the Endboss.
+     */
     startEndbossIntro() {
         this.animationIndex = 0;
         this.animateEndboss = true;
@@ -153,6 +182,10 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Checks in which direction the final boss should move
+     *@returns {boolean} - True if the character is to the left of the Endboss, false otherwise.
+     */
     checkDirection() {
         return world.character.x + (world.character.width / 2) < this.x + (this.width / 2);
     }

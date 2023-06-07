@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/endboss.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/endboss.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents an Endboss enemy that extends the MoveableObject class.
+ * @extends MoveableObject
+ */
+class Endboss extends MovableObject {
+
+    IMAGES_WALKING = [
+        'img/4_enemie_boss_chicken/1_walk/G1.png',
+        'img/4_enemie_boss_chicken/1_walk/G2.png',
+        'img/4_enemie_boss_chicken/1_walk/G3.png',
+        'img/4_enemie_boss_chicken/1_walk/G4.png'
+    ];
+
+    IMAGES_ALERT = [
+        'img/4_enemie_boss_chicken/2_alert/G5.png',
+        'img/4_enemie_boss_chicken/2_alert/G6.png',
+        'img/4_enemie_boss_chicken/2_alert/G7.png',
+        'img/4_enemie_boss_chicken/2_alert/G8.png',
+        'img/4_enemie_boss_chicken/2_alert/G9.png',
+        'img/4_enemie_boss_chicken/2_alert/G10.png',
+        'img/4_enemie_boss_chicken/2_alert/G11.png',
+        'img/4_enemie_boss_chicken/2_alert/G12.png',
+    ];
+
+    IMAGES_ATTACK = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png',
+        'img/4_enemie_boss_chicken/3_attack/G17.png',
+        'img/4_enemie_boss_chicken/3_attack/G18.png',
+        'img/4_enemie_boss_chicken/3_attack/G19.png',
+        'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ];
+
+    IMAGES_HURT = [
+        'img/4_enemie_boss_chicken/4_hurt/G21.png',
+        'img/4_enemie_boss_chicken/4_hurt/G22.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
+    ];
+
+    IMAGES_DEAD = [
+        'img/4_enemie_boss_chicken/5_dead/G24.png',
+        'img/4_enemie_boss_chicken/5_dead/G25.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
+    ];
+
+    bigChickenHurt_sound = new Audio('audio/big-chicken-hurt.mp3');
+
+    endbossDead = false;
+    animateEndboss = false;
+    animationIndex;
+
+
+    /**
+     * Creates a new instance of the Endboss class.
+     */
+    constructor() {
+        super().loadImage(this.IMAGES_WALKING[0]);
+        this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_ALERT);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
+        this.height = 420;
+        this.width = 300;
+        this.y = 20;
+        this.x = 2500;
+        this.speed = 4.5;
+        this.energy = 100;
+        this.hurtWaitingTime = 0.85;
+        this.hitStrength = 25;
+        this.animate();
+    }
+
+
+    /**
+     * Function to animate the Endboss.
+     */
+    animate() {
+        let animate = setInterval(() => {
+            if (this.animateEndboss) {
+                this.introAnimation();
+                this.hurtAnimation();
+                this.isDeadAnimation();
+                this.attackAnimation();
+                this.animationIndex++
+            }
+            if (world) {
+                if (world.character.x > 1900 &amp;&amp; !this.animateEndboss &amp;&amp; !this.endbossDead) {
+                    this.startEndbossIntro()
+                }
+            }
+
+        }, 120)
+            stoppableIntervalID(animate);
+    }
+
+
+    /**
+     * A function that executes animations in sequence.
+     */
+    introAnimation() {
+        if (this.animationIndex &lt; 35) {
+            this.walkIn();
+        }
+        if (this.animationIndex &lt; 43 &amp;&amp; this.animationIndex > 35) {
+            this.alertIntro();
+        }
+    }
+
+
+    /**
+     * Animated that the final boss goes in the direction of the character.
+     */
+    walkIn() {
+        this.playAnimationLoop(this.IMAGES_WALKING);
+        this.moveLeft();
+    }
+
+
+    /**
+     * Animates that the final boss has seen the character and is angry.
+     */
+    alertIntro() {
+        this.playAnimationLoop(this.IMAGES_ALERT);
+        world.character.characterMovement = true;
+    }
+
+
+    /**
+     * Starts when the final boss is injured.
+     */
+    hurtAnimation() {
+        if (this.lastTime(this.lastHit, this.hurtWaitingTime) &amp;&amp; !this.isDead()) {
+            startSound(this.bigChickenHurt_sound);
+            this.playAnimationLoop(this.IMAGES_HURT);
+        }
+    }
+
+
+    /**
+     * Starts when the final boss is dead.
+     */
+    isDeadAnimation() {
+        if (this.isDead() &amp;&amp; !this.endbossDead) {
+            this.animateEndboss = false;
+            this.endbossDead = true;
+            this.deadAnimation(2);
+            this.gameOver();
+            world.character.characterMovement = false;
+        }
+    }
+
+
+    /**
+     * Default animation performed when the final boss walks towards the character.
+     */
+    attackAnimation() {
+        if (this.animationIndex > 43 &amp;&amp; !this.lastTime(this.lastHit, this.hurtWaitingTime)) {
+            this.playAnimationLoop(this.IMAGES_ATTACK);
+            if (this.checkDirection() == true) {
+                this.moveLeft();
+                this.otherDirection = false;
+            } else {
+                this.moveRight();
+                this.otherDirection = true;
+            }
+        }
+    }
+
+
+    /**
+     * Starts the intro of the Endboss.
+     */
+    startEndbossIntro() {
+        this.animationIndex = 0;
+        this.animateEndboss = true;
+        world.character.characterMovement = false;
+        this.fadeInImg('alphaEndbossHealthBar');
+        world.character.setStandardImg();
+    }
+
+
+    /**
+     * Checks in which direction the final boss should move
+     *@returns {boolean} - True if the character is to the left of the Endboss, false otherwise.
+     */
+    checkDirection() {
+        return world.character.x + (world.character.width / 2) &lt; this.x + (this.width / 2);
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="ChickenBaby.html">ChickenBaby</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="GameOver.html">GameOver</a></li><li><a href="HealthBarEndboss.html">HealthBarEndboss</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SalsaBottle.html">SalsaBottle</a></li><li><a href="SalsaBottleBar.html">SalsaBottleBar</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li><li><a href="YouLost.html">YouLost</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateLoadingScreen">animateLoadingScreen</a></li><li><a href="global.html#checkMobileControll">checkMobileControll</a></li><li><a href="global.html#checkScreenResolution">checkScreenResolution</a></li><li><a href="global.html#checkValues">checkValues</a></li><li><a href="global.html#checkWindowResolution">checkWindowResolution</a></li><li><a href="global.html#chooseMusic">chooseMusic</a></li><li><a href="global.html#closeFullscreen">closeFullscreen</a></li><li><a href="global.html#closeInfo">closeInfo</a></li><li><a href="global.html#doomEventListener">doomEventListener</a></li><li><a href="global.html#fnBrowserDetect">fnBrowserDetect</a></li><li><a href="global.html#fullScreen">fullScreen</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideTryAgain">hideTryAgain</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#isTouchEnabled">isTouchEnabled</a></li><li><a href="global.html#openFullscreen">openFullscreen</a></li><li><a href="global.html#reloadGame">reloadGame</a></li><li><a href="global.html#setFullSize">setFullSize</a></li><li><a href="global.html#setLandscapeView">setLandscapeView</a></li><li><a href="global.html#setNormalSize">setNormalSize</a></li><li><a href="global.html#showInfo">showInfo</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#startScreenClicked">startScreenClicked</a></li><li><a href="global.html#startSound">startSound</a></li><li><a href="global.html#stopGame">stopGame</a></li><li><a href="global.html#stopSound">stopSound</a></li><li><a href="global.html#stoppableIntervalID">stoppableIntervalID</a></li><li><a href="global.html#switchSound">switchSound</a></li><li><a href="global.html#touch">touch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Jun 07 2023 20:25:03 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

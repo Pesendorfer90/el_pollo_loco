@@ -1,3 +1,6 @@
+/**
+ * Event is reporting when one of the following keys is pressed
+ */
 window.addEventListener('keydown', (event) => {
     if (event.keyCode == 39 || event.keyCode == 68) {
         keyboard.RIGHT = true;
@@ -20,6 +23,9 @@ window.addEventListener('keydown', (event) => {
 })
 
 
+/**
+ * Event is reporting when one of the following keys is released
+ */
 window.addEventListener('keyup', (event) => {
     if (event.keyCode == 39 || event.keyCode == 68) {
         keyboard.RIGHT = false;
@@ -42,6 +48,9 @@ window.addEventListener('keyup', (event) => {
 });
 
 
+/**
+ * Event is reporting when one of the following buttons is pressed or released
+ */
 function touch() {
     document.getElementById('btnRight').addEventListener("touchstart", () => {
         event.preventDefault();

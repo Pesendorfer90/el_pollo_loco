@@ -1,3 +1,6 @@
+/**
+ * Represents the game world.
+ */
 class World {
 
     startScreen = new StartScreen();
@@ -18,6 +21,11 @@ class World {
     alphaGameOver = 0;
     alphaEndbossHealthBar = 0;
 
+
+    /**
+     * Creates a new game world.
+     * @param {HTMLCanvasElement} canvas - The canvas element.
+     */
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -29,11 +37,17 @@ class World {
     }
 
 
+    /**
+     * Sets the world reference for the character.
+     */
     setWorld() {
         this.character.world = this;
     }
 
 
+    /**
+     * Checks for collisions between game objects.
+     */
     checkCollisions() {
         let collisionIntervall = setInterval(() => {
             this.enemyCollision();
@@ -44,6 +58,9 @@ class World {
     }
 
 
+    /**
+     * Handles collisions between the character and enemies.
+     */
     enemyCollision() {
         this.level.allEnemies.forEach((enemy) => {
             this.enemyHurtCharacter(enemy, enemy.hitStrength);
@@ -53,6 +70,15 @@ class World {
     }
 
 
+    /**
+     * This function checks if the character collides with an enemy,
+     * whether the last collision with an enemy was long enough ago,
+     * if the enemy is not dead,
+     * if the character is not dead
+     * and whether the character is on the ground.
+     * @param {object} enemy - An enemy.
+     * @param {number} hitStrength - How much energy is withdrawn.
+     */
     enemyHurtCharacter(enemy, hitStrength) {
         if (this.character.isCollidiong(enemy) &&
             this.character.lastTime(this.character.lastHit, this.character.throwWaitingTime) == false &&
@@ -63,17 +89,28 @@ class World {
     }
 
 
+    /**
+     * This function checks if the character jumps on an enemy from above,
+     * whether the character makes a downward movement,
+     * if the enemy is not dead and
+     * if the character is not dead.
+     * If everything matches, the enemy dies and the character jumps.
+     * @param {object} enemy - An enemy.
+     */
     characterHurtEnemy(enemy) {
         if (this.character.jumpOnEnemy(enemy) &&
-            this.character.isAboveGround() == true &&
+            // this.character.isAboveGround() == true &&
             this.character.isPositiv() &&
-            !enemy.isDead()) {
+            !enemy.isDead() && !this.character.isDead()) {
             enemy.energy = 0;
             this.character.jump(10);
         }
     }
 
 
+    /**
+     * Checks if the character collides with a coin.
+     */
     coinCollision() {
         this.level.coin.forEach((coin, i) => {
             if (this.character.isCollidiong(coin)) {
@@ -84,6 +121,9 @@ class World {
     }
 
 
+    /**
+     * Checks if the character collides with a salsabottle.
+     */
     bottleCollision() {
         this.level.salsaBottle.forEach((salsaBottle, i) => {
             if (this.character.isCollidiong(salsaBottle)) {
@@ -94,18 +134,28 @@ class World {
     }
 
 
+    /**
+     * If the enemy collides with the character, the hit strength is subtracted from the energy and the character's status bar is updated.
+     * @param {number} hitStrength - How much energy is withdrawn.
+     */
     enemyCollides(hitStrength) {
         this.character.hit(hitStrength);
         this.statusBar.setHealth(this.character.energy);
     }
 
 
+    /**
+     * Collides an enemy with a ThrowableObject and
+     * it's been longer than hurtWaitingTime since the last hit
+     * 20 energy is drained from the enemy.
+     * If the enemy is the Endboss, the healthBarEndboss is also updated.
+     * @param {object} enemy - An enemy.
+     */
     bottleHitEnemy(enemy) {
         this.throwableObject.forEach((salsaBottle) => {
             if (enemy.isCollidiong(salsaBottle) &&
-                enemy.lastTime(enemy.lastHit, enemy.hurtWaitingTime) == false) {
+                !enemy.lastTime(enemy.lastHit, enemy.hurtWaitingTime)) {
                 enemy.hit('20');
-                console.log(enemy);
                 if (enemy == world.level.endboss[0]) {
                     this.healthBarEndboss.setHealth(enemy.energy);
                 }
@@ -114,6 +164,10 @@ class World {
     }
 
 
+    /**
+     * Draws the game world and its objects on the canvas.
+     * The function keeps restarting itself.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -138,7 +192,7 @@ class World {
             this.addToMap(this.salsaBottleBar);
             this.addToMap(this.salsaBottleBar, 'text');
 
-            // ----------- Space for transparent IMG ------------
+            // ------- Space for fixed and transparent objects --------
             if (this.character.characterDead) {
                 this.ctx.globalAlpha = this.alphaLost;
                 this.addToMap(this.youLost);
@@ -152,7 +206,6 @@ class World {
                 this.addToMap(this.gameOver);
                 this.ctx.globalAlpha = 1;
             }
-
             this.ctx.translate(this.camera_x, 0);
         }
 
@@ -161,20 +214,21 @@ class World {
         if (!gameStarted) {
             this.addToMap(this.startScreen);
         }
-
         this.ctx.translate(this.camera_x, 0);
 
         this.ctx.translate(-this.camera_x, 0);
 
-        // draw wir immer wieder aufgerufen // this wird in der requestAnimationFrame nicht erkannt
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
-        // hideLoadingScreen();
     }
 
 
+    /**
+     * Adds an object or an array of objects to the rendering map.
+     * @param {object|object[]} objects - The object(s) to be added to the map.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
@@ -182,6 +236,10 @@ class World {
     }
 
 
+    /**
+     * Adds an object to the rendering map.
+     * @param {object} object - The object to be added to the map.
+     */
     addToMap(mo, i) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -196,6 +254,10 @@ class World {
     }
 
 
+    /**
+     * Flips the image of the object horizontally.
+     * @param {string} ctx - The rendering context.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -204,6 +266,10 @@ class World {
     }
 
 
+    /**
+     * Reverts the image of the object back to its original orientation.
+     * @param {string} ctx - The rendering context.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

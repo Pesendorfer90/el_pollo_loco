@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 
 <head>
     <meta charset="UTF-8">
@@ -44,22 +44,22 @@
         <div class="main-content" id="mainContent">
             <canvas id="canvas" width="720px" height="480px"></canvas>
             <div class="button-container">
-                <div class="info-button z-index" id="infoButton">
+                <div class="info-button" id="infoButton">
                     <div class="empty-space" id="emptySpaceLeft"></div>
-                    <div class="button" onclick="switchSound()"><img id="muteOnOff" class="button-img"
+                    <div class="button button-bg center" onclick="switchSound()"><img id="muteOnOff" class="button-img"
                             src="img/index-img/mute.png"></div>
-                    <div class="button" id="infoButton" onclick="showInfo()"><img class="button-img"
+                    <div class="button button-bg center" id="infoButton" onclick="showInfo()"><img class="button-img"
                             src="img/index-img/info.png"></div>
-                    <div class="button" id="fullScreenButton" onclick="fullScreen()"><img class="button-fullscreen-img"
+                    <div class="button button-bg center" id="fullScreenButton" onclick="fullScreen()"><img class="button-fullscreen-img"
                             src="img/index-img/full-screen.png"></div>
                     <div class="empty-space" id="emptySpaceRight"></div>
                 </div>
                 <div class="start-button-container z-index">
-                    <div class="animated-button start-button" id="startButton" onclick="startScreenClicked()">Start
+                    <div class="animated-button button-bg center start-button" id="startButton" onclick="startScreenClicked()">Start
                     </div>
                 </div>
             </div>
-            <div class="info-container display-none" id="infoContainer">
+            <div class="info-container button-bg center display-none" id="infoContainer">
                 <h1>Controlls</h1>
                 <table>
                     <tr>
@@ -83,27 +83,26 @@
                 <div class="close-Info-button" onclick="closeInfo()">Close</div>
             </div>
             <div class="button-container2 display-none" id="reload">
-                <div class="animated-button reload-button" id="reloadButton" onclick="reloadGame()">Try again</div>
+                <div class="animated-button button-bg center reload-button" id="reloadButton" onclick="reloadGame()">Try again</div>
             </div>
-            <div class="mobile-control" id="mobileControl">
+            <div class="mobile-control display-none" id="mobileControl">
                 <div class="display-flex">
-                    <div class="button-border" id="btnLeft">
+                    <div class="button-border center" id="btnLeft">
                         <img src="img/index-img/arrow.png" class="mobile-control-button-left mobile-control-img">
                     </div>
-                    <div class="button-border" id="btnRight">
+                    <div class="button-border center" id="btnRight">
                         <img src="img/index-img/arrow.png" class="mobile-control-img">
                     </div>
                 </div>
                 <div class="display-flex">
-                    <div class="button-border" id="btnThrow">
+                    <div class="button-border center" id="btnThrow">
                         <img src="img/6_salsa_bottle/salsa_bottle.png" class="throw-bottle">
                     </div>
-                    <div class="button-border" id="btnJump">
+                    <div class="button-border center" id="btnJump">
                         <img src="img/index-img/arrow.png" class="mobile-control-button-jump mobile-control-img">
                     </div>
                 </div>
             </div>
-
 
             <div class="loading-screen" id="loadingScreen">
                 <h1>Loading
@@ -118,9 +117,13 @@
                 </h1>
             </div>
 
+            <div class="rotate-info button-bg center display-none" id="portraitWarning">
+                <h3>Pleas rotate your phone</h3>
+                <img src="img/index-img/phone-rotate-landscape.256x256.png">
+            </div>
 
         </div>
-        <div class="firefox-suck display-none" id="firefoxSuck">
+        <div class="firefox-suck button-bg center display-none" id="firefoxSuck">
             <h2>Firefox detected</h2>
             <p>Our game is currently not compatible with the Firefox browser.<br>Please use a different browser such
                 as<br>Chrome, Edge, or Opera to fully enjoy the game.</p>

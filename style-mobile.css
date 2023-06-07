@@ -84,6 +84,21 @@
     .throw-bottle {
         height: 9.7vw;
     }
+
+    .rotate-info {
+        width: 100%;
+        height: 100%;
+        font-size: 6vw;
+    }
+
+    .rotate-info h3 {
+        margin: 3vw;
+    }
+
+    .rotate-info img {
+        width: 36vw;
+        height: 36vw;
+    }
 }
 
 /* Smartphone */
@@ -172,5 +187,20 @@
 
     .throw-bottle {
         height: 14.7vh;
+    }
+
+    .rotate-info {
+        width: 100%;
+        height: 100%;
+        font-size: 9.2vh;
+    }
+
+    .rotate-info h3 {
+        margin: 4.2vh;
+    }
+
+    .rotate-info img {
+        width: 54vh;
+        height: 54vh;
     }
 }

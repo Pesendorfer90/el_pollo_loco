@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/drawable-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/drawable-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents a drawable object with basic drawing functionality.
+ */
+class DrawableObject {
+    img;
+    imageCache = {};
+    currentImage = 0;
+    x;
+    y;
+    height;
+    width;
+    textColor;
+    font;
+    fontX;
+    fontY;
+    alpha = 0;
+
+
+    /**
+     * Loads an image for the object.
+     * @param {string} path - The path of the image to load.
+     */
+    loadImage(path) {
+        this.img = new Image();
+        this.img.src = path;
+    }
+
+
+    /**
+     * Loads multiple images into the image cache.
+     * @param {string[]} arr - An array of image paths to load.
+     */
+    loadImages(arr) {
+        arr.forEach((path) => {
+            let img = new Image();
+            img.src = path;
+            this.imageCache[path] = img;
+        });
+    }
+
+
+    /**
+     * Draws the object on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
+     */
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+
+    /**
+     * Write the object on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
+     */
+    write(ctx) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.textColor;
+        ctx.fillText(this.text, this.fontX, this.fontY);
+    }
+
+
+    /**
+     * Increases the transparency of images.
+     * @param {number} alpha - The value of transparency from 0 to 1.
+     */
+    fadeInImg(alpha) {
+        let interval = setInterval(() => {
+                this.setTransparency(alpha);
+            }, 20)
+            setTimeout(() => {
+                clearInterval(interval)
+            }, 2000)
+    }
+    
+
+    /**
+     * Increases the transparency of the image when you die
+     */
+    youLost() {
+        this.fadeInImg('alphaLost');
+        this.showTryAgain();
+    }
+
+
+    /**
+     * Increases the transparency of the image when you win.
+     */
+    gameOver() {
+        this.fadeInImg('alphaGameOver');
+        this.showTryAgain();
+    }
+
+
+    /**
+     * Displays the Try again button after winning or losing.
+     */
+    showTryAgain() {
+        setTimeout(() => {
+            document.getElementById('reload').classList.remove('display-none');
+        }, 3000)
+    }
+
+
+    /**
+     * Increases the value of alpha by 0.015.
+     * @param {string} alpha - The globalAlpha Value to increase.
+     */
+    setTransparency(alpha) {
+        world[alpha] += 0.015;;
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="ChickenBaby.html">ChickenBaby</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="GameOver.html">GameOver</a></li><li><a href="HealthBarEndboss.html">HealthBarEndboss</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SalsaBottle.html">SalsaBottle</a></li><li><a href="SalsaBottleBar.html">SalsaBottleBar</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li><li><a href="YouLost.html">YouLost</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateLoadingScreen">animateLoadingScreen</a></li><li><a href="global.html#checkMobileControll">checkMobileControll</a></li><li><a href="global.html#checkScreenResolution">checkScreenResolution</a></li><li><a href="global.html#checkValues">checkValues</a></li><li><a href="global.html#checkWindowResolution">checkWindowResolution</a></li><li><a href="global.html#chooseMusic">chooseMusic</a></li><li><a href="global.html#closeFullscreen">closeFullscreen</a></li><li><a href="global.html#closeInfo">closeInfo</a></li><li><a href="global.html#doomEventListener">doomEventListener</a></li><li><a href="global.html#fnBrowserDetect">fnBrowserDetect</a></li><li><a href="global.html#fullScreen">fullScreen</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideTryAgain">hideTryAgain</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#isTouchEnabled">isTouchEnabled</a></li><li><a href="global.html#openFullscreen">openFullscreen</a></li><li><a href="global.html#reloadGame">reloadGame</a></li><li><a href="global.html#setFullSize">setFullSize</a></li><li><a href="global.html#setLandscapeView">setLandscapeView</a></li><li><a href="global.html#setNormalSize">setNormalSize</a></li><li><a href="global.html#showInfo">showInfo</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#startScreenClicked">startScreenClicked</a></li><li><a href="global.html#startSound">startSound</a></li><li><a href="global.html#stopGame">stopGame</a></li><li><a href="global.html#stopSound">stopSound</a></li><li><a href="global.html#stoppableIntervalID">stoppableIntervalID</a></li><li><a href="global.html#switchSound">switchSound</a></li><li><a href="global.html#touch">touch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Jun 07 2023 20:25:03 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

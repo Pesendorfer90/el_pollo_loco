@@ -1,3 +1,7 @@
+/**
+ * Class representing a Chicken object.
+ * @extends MoveableObject
+ */
 class Chicken extends MovableObject {
 
     IMAGES_WALKING = [
@@ -10,6 +14,9 @@ class Chicken extends MovableObject {
     soundPlayed = false;
 
 
+    /**
+     * Creates an instance of Chicken.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING)
@@ -23,6 +30,9 @@ class Chicken extends MovableObject {
     }
 
 
+    /**
+     * Function to animate the Chicken.
+     */
     animate() {
         let animate = setInterval(() => {
             if (this.isDead()) {
@@ -39,6 +49,9 @@ class Chicken extends MovableObject {
     }
 
 
+    /**
+     * This function starts the movement of the Chicken.
+     */
     startMovement() {
         let movement = setInterval(() => {
             if (!this.isDead()) {

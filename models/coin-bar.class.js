@@ -1,9 +1,17 @@
+/**
+ * Class representing a CoinBar object.
+ * @extends DrawableObject
+ */
 class CoinBar extends DrawableObject {
 
     coin_sound = new Audio('audio/coin.mp3');
 
     coins = 0;
     
+
+    /**
+     * Creates an instance of CoinBar.
+     */
     constructor() {
         super().loadImage('img/7_statusbars/3_icons/icon_coin.png');
         this.x = 10;
@@ -18,6 +26,9 @@ class CoinBar extends DrawableObject {
     }
 
 
+    /**
+     * This function starts as soon as the character has collected a coin.
+     */
     getCoin() {
         this.coins += 1;
         this.text = this.coins;

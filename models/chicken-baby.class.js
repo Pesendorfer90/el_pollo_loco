@@ -1,3 +1,7 @@
+/**
+ * Class representing a ChickenBaby object.
+ * @extends MoveableObject
+ */
 class ChickenBaby extends MovableObject {
 
     IMAGES_WALKING = [
@@ -11,6 +15,9 @@ class ChickenBaby extends MovableObject {
     lastJump;
 
 
+    /**
+     * Creates an instance of Character.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING)
@@ -26,6 +33,10 @@ class ChickenBaby extends MovableObject {
         this.hitStrength = 5;
     }
 
+
+    /**
+     * Function to animate the character.
+     */
     animate() {
         let animate = setInterval(() => {
             if (this.isDead()) {
@@ -42,6 +53,9 @@ class ChickenBaby extends MovableObject {
     }
 
 
+    /**
+     * This function starts the animation of the chicken baby.
+     */
     startMovement() {
         let movement = setInterval(() => {
             if (!this.isDead()) {
@@ -55,6 +69,9 @@ class ChickenBaby extends MovableObject {
     }
 
 
+    /**
+     * This function makes the chicken baby jump randomly.
+     */
     jumpRandom() {
         this.jump(this.jumpY)
         this.lastJump = new Date().getTime()

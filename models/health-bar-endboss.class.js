@@ -1,3 +1,7 @@
+/**
+ * Represents a HealthBarEndboss in the game.
+  * @extends DrawableObject
+ */
 class HealthBarEndboss extends DrawableObject {
 
     IMAGES_HEALTH = [
@@ -9,9 +13,10 @@ class HealthBarEndboss extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/100.png'
     ];
 
-    energy = 100;
-    health = 100;
 
+    /**
+     * Creates a new instance of the HealthBarEndboss class.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTH);
@@ -22,12 +27,22 @@ class HealthBarEndboss extends DrawableObject {
         this.setHealth(100);
     }
 
+
+     /**
+     * Sets which image to display based on the health value.
+     * @param {number} health - The value that says how much health the character has.
+     */
     setHealth(health) {
         this.health = health;
         let path = this.IMAGES_HEALTH[this.resolveImagesIndex()];
         this.img = this.imageCache[path];
     }
 
+
+    /**
+     * Returns a number between 0 and 5, based on the health value. 
+     * @returns number between 0 - 5.
+     */
     resolveImagesIndex() {
         if (this.health > 80) {
             return 5;

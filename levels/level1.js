@@ -1,3 +1,6 @@
+/**
+ * This function loads the background objects, enemies and collectible items
+ */
 function loadLevel() {
     level1 = new Level(
         [
@@ -8,6 +11,10 @@ function loadLevel() {
             new Chicken(),
             new Chicken(),
             new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new ChickenBaby(),
+            new ChickenBaby(),
             new ChickenBaby(),
             new ChickenBaby(),
             new ChickenBaby(),
@@ -55,6 +62,11 @@ function loadLevel() {
         [
             new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
             new SalsaBottle('img/6_salsa_bottle/2_salsa_bottle_on_ground.png'),
+            new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
             new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
             new SalsaBottle('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
             new SalsaBottle('img/6_salsa_bottle/2_salsa_bottle_on_ground.png')

@@ -1,3 +1,7 @@
+/**
+ * Represents a StatusBar object in the game.
+  * @extends DrawableObject
+ */
 class StatusBar extends DrawableObject {
 
     IMAGES_HEALTH = [
@@ -12,6 +16,9 @@ class StatusBar extends DrawableObject {
     health = 100;
 
 
+    /**
+     * Creates a new instance of the StatusBar class.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTH);
@@ -22,12 +29,22 @@ class StatusBar extends DrawableObject {
         this.setHealth(100);
     }
 
+
+    /**
+     * Sets which image to display based on the health value.
+     * @param {number} health - The value that says how much health the character has.
+     */
     setHealth(health) {
         this.health = health;
         let path = this.IMAGES_HEALTH[this.resolveImagesIndex()];
         this.img = this.imageCache[path];
     }
 
+
+    /**
+     * Returns a number between 0 and 5, based on the health value. 
+     * @returns number between 0 - 5.
+     */
     resolveImagesIndex() {
         if (this.health == 100) {
             return 5;

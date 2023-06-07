@@ -1,3 +1,7 @@
+/**
+ * Represents a ThrowableObject object in the game.
+ * @extends MovableObject
+ */
 class ThrowableObject extends MovableObject {
 
     IMAGES_BOTTLES = [
@@ -24,6 +28,10 @@ class ThrowableObject extends MovableObject {
     animateInterval;
     splashInterval;
 
+
+    /**
+     * Creates a new instance of the ThrowableObject class.
+     */
     constructor(x, y) {
         super().loadImage(this.IMAGES_BOTTLES[0])
         this.loadImages(this.IMAGES_BOTTLES)
@@ -36,6 +44,12 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+
+    /**
+     * This function starts 3 functions to animate the ThrowableObject and determine the throwing direction.
+     * A bottle is deleted from the array of the salsaBottleBar.
+     * After 850ms the object ThroableObject and the intervals are deleted.
+     */
     throw() {
         this.bottleGravity();
         this.throwDirecton();
@@ -49,6 +63,9 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * Starts the animation.
+     */
     animate() {
         this.animateInterval = setInterval(() => {
             this.checkBottleColision();
@@ -57,6 +74,10 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * Checks if ThrowableObjects collides with an enemy.
+     * If ThrowableObjects collides with an enemy, an animation starts and 2 intervals are deleted.
+     */
     checkBottleColision() {
         world.level.allEnemies.forEach(enemy => {
             if (enemy.isCollidiong(this) && !enemy.isDead()) {
@@ -69,6 +90,9 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * As long as the ThroableObjects have not collided, the animation below will play.
+     */
     bottleRotation() {
         if (!this.bottleSplashed) {
             this.playAnimationLoop(this.IMAGES_BOTTLES);
@@ -76,6 +100,9 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * Activate gravity to make the bottle fall down.
+     */
     bottleGravity() {
         this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -86,6 +113,9 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * Check in which direction ThrowableObjects is thrown.
+     */
     throwDirecton() {
         let direction = world.character.otherDirection
         this.throwInterval = setInterval(() => {
@@ -98,6 +128,9 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * This function is played as soon as ThrowableObjects has collided with an enemy.
+     */
     bottleSplash() {
         startSound(this.bottleSmash_sound);
         this.splashInterval = setInterval(() => {
