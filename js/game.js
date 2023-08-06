@@ -181,12 +181,13 @@ function fullScreen() {
     let fullScreenContent = document.getElementById('fullScreenContainer');
     if (checkFullScreen) {
         closeFullscreen(fullScreenContent)
+        setNormalSize();
         checkFullScreen = false;
     } else {
         openFullscreen(fullScreenContent);
+        setFullSize();
         checkFullScreen = true;
     }
-    setLandscapeView();
 }
 
 
@@ -218,20 +219,6 @@ function closeFullscreen() {
     }
 }
 
-
-
-/**
- * Uses the if query to check whether the landscape mode is true and starts the appropriate functions.
- */
-function setLandscapeView() {
-    if (checkWindowResolution()) {
-        if (checkFullScreen) {
-            setFullSize();
-        } else {
-            setNormalSize()
-        }
-    }
-}
 
 /**
  * Restart the game.
@@ -280,16 +267,14 @@ function hideTryAgain() {
 
 
 /**
- * Check the current inner height and inner width of the browser.
- * @returns {boolean} - True if the inner height is less than 720px or 
- * innerWidth is less than 1280px, false otherwise.
+ * Check the current inner height and inner width of the browser and check the aspect ratio.
+ * @returns {boolean} - True if the aspect ratio smaller, false otherwise.
  */
 function checkWindowResolution() {
     let windowHeight = window.innerHeight;
     let windowWidth = window.innerWidth;
-    if (windowHeight < 720 || windowWidth < 1280) {
-        return true;
-    }
+    let aspectRatio = windowWidth / windowHeight;
+    return aspectRatio < 3 / 2;
 }
 
 
@@ -310,8 +295,8 @@ function checkScreenResolution() {
 /**
  * Event listener to detect if the device changes its screen orientation.
  */
-portrait.addEventListener("change", function(e) {
-    if(e.matches) {
+portrait.addEventListener("change", function (e) {
+    if (e.matches) {
         document.getElementById('portraitWarning').classList.remove('display-none')
     } else {
         document.getElementById('portraitWarning').classList.add('display-none')
@@ -320,14 +305,24 @@ portrait.addEventListener("change", function(e) {
 
 
 /**
+ * This function checks the aspect ratio in an if statement
+ * @returns - The correct CSS class
+ */
+function checkClassWithAspectRatio() {
+    if (checkWindowResolution()) {
+        return 'fullscreen-width'
+    } else {
+        return 'fullscreen-height'
+    }
+}
+
+
+/**
  * Adds the class to the required div's to work in landscape mode.
  */
 function setFullSize() {
-    document.getElementById('mainContent').classList.add('fullscreen');
-    document.getElementById('canvas').classList.add('fullscreen');
-    document.getElementById('infoContainer').classList.add('fullscreen');
-    document.getElementById('reload').classList.add('fullscreen-half-height');
-    document.getElementById('mobileControl').classList.add('fullscreen-mobile-controll');
+    document.getElementById('mainContent').classList.add(checkClassWithAspectRatio());
+    document.getElementById('canvas').classList.add(checkClassWithAspectRatio());
 }
 
 
@@ -335,11 +330,8 @@ function setFullSize() {
  * Removes the class to add the required div's to work in landscape mode.
  */
 function setNormalSize() {
-    document.getElementById('mainContent').classList.remove('fullscreen');
-    document.getElementById('canvas').classList.remove('fullscreen');
-    document.getElementById('infoContainer').classList.remove('fullscreen');
-    document.getElementById('reload').classList.remove('fullscreen-half-height');
-    document.getElementById('mobileControl').classList.remove('fullscreen-mobile-controll');
+    document.getElementById('mainContent').classList.remove(checkClassWithAspectRatio());
+    document.getElementById('canvas').classList.remove(checkClassWithAspectRatio());
 }
 
 

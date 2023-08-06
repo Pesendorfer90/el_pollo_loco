@@ -32,24 +32,21 @@ body {
     background: radial-gradient(circle, rgba(255, 222, 1, 1) 0%, rgba(255, 156, 0, 1) 100%);
 }
 
-.fullscreen {
+.fullscreen-width {
     width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 3/2;
+}
+
+.fullscreen-height {
     height: 100% !important;
-}
-
-.fullscreen-half-height {
-    width: 100% !important;
-    height: 50% !important;
-}
-
-.fullscreen-mobile-controll {
-    height: 50% !important;
-    width: 85% !important;
+    width: auto !important;
+    aspect-ratio: 3/2;
 }
 
 .main-content {
     width: 720px;
-    height: 480px;
+    aspect-ratio: 3/2;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -82,8 +79,8 @@ canvas {
 
 .button-container2 {
     z-index: 6;
-    width: 720px;
-    height: 240px;
+    width: 100%;
+    height: 50%;
     position: absolute;
     top: 75%;
     left: 50%;
@@ -154,8 +151,8 @@ canvas {
 .info-container {
     position: absolute;
     z-index: 6;
-    width: 720px;
-    height: 480px;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
     flex-direction: column;
     font-size: 36px;
@@ -208,8 +205,8 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
-    height: 240px;
-    width: 720px;
+    height: 50%;
+    width: 100%;
     display: flex;
     align-items: end;
     justify-content: space-between;
@@ -278,8 +275,8 @@ canvas {
 .rotate-info {
     position: absolute;
     z-index: 6;
-    width: 720px;
-    height: 480px;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
     flex-direction: column;
     font-size: 44px;
