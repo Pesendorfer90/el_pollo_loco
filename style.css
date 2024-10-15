@@ -290,24 +290,34 @@ canvas {
 .firefox-suck {
     z-index: 8;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    transform: translate(-50%, -50%);
     font-family: 'Courier New', Courier, monospace;
     font-size: 40px;
     flex-direction: column;
     text-align: center;
 }
 
-.firefox-suck a {
+.suck-container {
+    padding: 50px;
+}
+
+.good-chois-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.good-chois-links a {
     text-decoration: none;
     color: black;
+    font-size: 22px;
     border: 2px solid black;
-    border-radius: 10px;
+    border-radius: 8px;
     margin-bottom: 10px;
-    background-color: darkgray;
+    background-color: rgba(216, 216, 216, 0.87);
     cursor: pointer;
     padding: 5px;
 }

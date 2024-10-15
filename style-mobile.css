@@ -99,6 +99,18 @@
         width: 36vw;
         height: 36vw;
     }
+
+    .firefox-suck {
+        font-size: 22px;
+    }
+    
+    .suck-container {
+        padding: 20px;
+    }
+    
+    .good-chois-links a {
+        font-size: 18px;
+    }
 }
 
 /* Smartphone */

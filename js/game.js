@@ -221,6 +221,34 @@ function closeFullscreen() {
 
 
 /**
+ * Handles changes in the fullscreen mode status and adjusts the display accordingly.
+ *
+ * This function checks if the document has exited fullscreen mode (i.e., no `fullscreenElement`).
+ * If fullscreen mode is exited, it calls `setNormalSize()` to reset the display to normal size
+ * and sets `checkFullScreen` to `false`. It also logs a message indicating that fullscreen mode has been exited.
+ */
+function handleFullscreenChange() {
+    if (!document.fullscreenElement) {
+        setNormalSize();
+        checkFullScreen = false;
+        console.log('Vollbildmodus verlassen');
+    }
+}
+
+
+/**
+ * Adds an event listener that listens for changes in fullscreen mode.
+ *
+ * This event listener listens for the `fullscreenchange` event, which is triggered whenever the browser enters or exits fullscreen mode.
+ * When the event occurs, the `handleFullscreenChange` function is called to check the fullscreen status and adjust the display accordingly.
+ *
+ * @example
+ * document.addEventListener('fullscreenchange', handleFullscreenChange);
+ */
+document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+
+/**
  * Restart the game.
  */
 function reloadGame() {
