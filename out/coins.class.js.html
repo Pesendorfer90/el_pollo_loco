@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: coins.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,35 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: coins.class.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing a Coin object.
+ * @extends DrawableObject
+ */
+class Coin extends DrawableObject {
 
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    /**
+     * Creates an instance of Coin.
+     */
+    constructor() {
+        super().loadImage('img/8_coin/coin_1.png');
+        this.x = 200 + Math.random() * 1750;
+        this.y = 370;
+        this.width = 40;
+        this.height = 40;
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 
