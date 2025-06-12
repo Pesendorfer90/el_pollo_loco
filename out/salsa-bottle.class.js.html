@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: salsa-bottle.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,35 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: salsa-bottle.class.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents a SalsaBottle object in the game.
+ * @extends DrawableObject
+ */
+class SalsaBottle extends DrawableObject {
 
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    /**
+     * Creates a new instance of the SalsaBottle class.
+     * @param {string} SALSABOTTLE_IMAGE - img path of the salsaBottle
+     */
+    constructor(SALSABOTTLE_IMAGE) {
+        super().loadImage(SALSABOTTLE_IMAGE);
+        this.x = 200 + Math.random() * 1750;
+        this.y = 345;
+        this.width = 40;
+        this.height = 70;
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 

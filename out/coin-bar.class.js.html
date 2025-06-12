@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: coin-bar.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,54 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: coin-bar.class.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing a CoinBar object.
+ * @extends DrawableObject
+ */
+class CoinBar extends DrawableObject {
 
+    coin_sound = new Audio('audio/coin.mp3');
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
+    coins = 0;
     
 
+    /**
+     * Creates an instance of CoinBar.
+     */
+    constructor() {
+        super().loadImage('img/7_statusbars/3_icons/icon_coin.png');
+        this.x = 10;
+        this.y = 45;
+        this.width = 60;
+        this.height = 60;
+        this.text = this.coins;
+        this.textColor = 'white';
+        this.font = '28px Comic Sans MS';
+        this.fontX = 70;
+        this.fontY = 90;
+    }
 
 
-
-
+    /**
+     * This function starts as soon as the character has collected a coin.
+     */
+    getCoin() {
+        this.coins += 1;
+        this.text = this.coins;
+        startSound(this.coin_sound);
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 

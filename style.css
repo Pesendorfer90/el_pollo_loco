@@ -287,27 +287,65 @@ canvas {
     margin: 20px;
 }
 
-.firefox {
-    z-index: 8;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+.firefox-overlay {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    transform: translate(-50%, -50%);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 40px;
-    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
+    padding: 20px;
 }
 
-.firefox a {
+.firefox-message {
+    max-width: 500px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.firefox-message h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.firefox-message p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.browser-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.browser-options a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
     text-decoration: none;
-    color: black;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background-color: darkgray;
-    cursor: pointer;
-    padding: 5px;
+    padding: 10px 15px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    transition: background 0.3s ease;
+    color: #000;
+}
+
+.browser-options a:hover {
+    background-color: #ddd;
+}
+
+.browser-options img {
+    width: 32px;
+    height: 32px;
 }
