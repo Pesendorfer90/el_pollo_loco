@@ -363,6 +363,6 @@ function isTouchEnabled() {
 function fnBrowserDetect() {
     if (userAgent.match(/firefox|fxios/i)) {
         browserName = "firefox";
-        document.getElementById('firefoxSuck').classList.remove('display-none');
+        document.getElementById('firefox').classList.remove('display-none');
     }
 }
